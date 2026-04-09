@@ -1,0 +1,232 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /*
+   * Layout container max-widths (at each min-width tier).
+   * Match breakpoints: sm 576, md 768, lg 992, xl 1200, xxl 1400, 2xl 1600.
+   * Values follow the usual “narrower than viewport” pattern (Bootstrap-style).
+   */
+  --width-container-sm: 540px;
+  --width-container-md: 720px;
+  --width-container-lg: 960px;
+  --width-container-xl: 1140px;
+  --width-container-xxl: 1320px;
+  --width-container-2xl: 1540px;
+
+  /* Heading type (mobile-first; overridden per breakpoint below) */
+  --font-size-h1: 1.75rem;
+  --line-height-h1: 1.22;
+  --font-size-h2: 1.5rem;
+  --line-height-h2: 1.24;
+  --font-size-h3: 1.3125rem;
+  --line-height-h3: 1.28;
+  --font-size-h4: 1.125rem;
+  --line-height-h4: 1.34;
+  --font-size-h5: 1rem;
+  --line-height-h5: 1.4;
+  --font-size-h6: 0.9375rem;
+  --line-height-h6: 1.4;
+}
+
+@media (width >= 576px) {
+  :root {
+    --font-size-h1: 1.875rem;
+    --font-size-h2: 1.625rem;
+    --font-size-h3: 1.375rem;
+    --font-size-h4: 1.1875rem;
+    --font-size-h5: 1.0625rem;
+    --font-size-h6: 1rem;
+  }
+}
+
+@media (width >= 768px) {
+  :root {
+    --font-size-h1: 2rem;
+    --line-height-h1: 1.21;
+    --font-size-h2: 1.75rem;
+    --font-size-h3: 1.5rem;
+    --font-size-h4: 1.25rem;
+    --font-size-h5: 1.125rem;
+    --font-size-h6: 1.0625rem;
+  }
+}
+
+@media (width >= 992px) {
+  :root {
+    --font-size-h1: 2.125rem;
+    --line-height-h1: 1.2;
+    --font-size-h2: 1.875rem;
+    --font-size-h3: 1.625rem;
+    --font-size-h4: 1.375rem;
+    --font-size-h5: 1.125rem;
+    --font-size-h6: 1.0625rem;
+  }
+}
+
+@media (width >= 1200px) {
+  :root {
+    --font-size-h1: 2.25rem;
+    --font-size-h2: 2rem;
+    --font-size-h3: 1.75rem;
+    --font-size-h4: 1.5rem;
+    --font-size-h5: 1.25rem;
+    --font-size-h6: 1.125rem;
+  }
+}
+
+@media (width >= 1400px) {
+  :root {
+    --font-size-h1: 4.3rem;
+    --font-size-h2: 2.125rem;
+    --font-size-h3: 1.875rem;
+    --font-size-h4: 1.5rem;
+    --font-size-h5: 1.25rem;
+    --font-size-h6: 1.125rem;
+  }
+}
+
+@media (width >= 1600px) {
+  :root {
+    --font-size-h1: 4.3rem;
+    --font-size-h2: 3rem;
+    --font-size-h3: 1.75rem;
+    --font-size-h4: 1.5rem;
+    --font-size-h5: 1.25rem;
+    --font-size-h6: 1.125rem;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* Viewport breakpoints (min-width) */
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-xxl: 1400px;
+  --breakpoint-2xl: 1600px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background-color: #000;
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .font-home-banner {
+    font-family: var(--font-geist-sans), var(--font-inter), system-ui, sans-serif;
+  }
+  .font-home-banner-heading {
+    font-family: var(--font-inter), system-ui, sans-serif;
+  }
+}
+
+@layer base {
+  /* Heading scale: semantic tags + matching `.h1` … `.h6` classes */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .h1,
+  .h2,
+  .h3,
+  .h4,
+  .h5,
+  .h6 {
+    font-family: var(--font-geist-sans), var(--font-inter), system-ui, sans-serif;
+  }
+  h1,
+  .h1 {
+    font-size: var(--font-size-h1);
+    line-height: var(--line-height-h1);
+  }
+  h2,
+  .h2 {
+    font-size: var(--font-size-h2);
+    line-height: var(--line-height-h2);
+  }
+  h3,
+  .h3 {
+    font-size: var(--font-size-h3);
+    line-height: var(--line-height-h3);
+  }
+  h4,
+  .h4 {
+    font-size: var(--font-size-h4);
+    line-height: var(--line-height-h4);
+  }
+  h5,
+  .h5 {
+    font-size: var(--font-size-h5);
+    line-height: var(--line-height-h5);
+  }
+  h6,
+  .h6 {
+    font-size: var(--font-size-h6);
+    line-height: var(--line-height-h6);
+  }
+}
+
+/* Centered `.container`: explicit max-width at every breakpoint */
+@layer components {
+  .container {
+    width: 100%;
+    max-width: 100%;
+    margin-inline: auto;
+    padding-inline: 15px;
+  }
+
+  @media (width >= 576px) {
+    .container {
+      max-width: var(--width-container-sm);
+    }
+  }
+
+  @media (width >= 768px) {
+    .container {
+      max-width: var(--width-container-md);
+    }
+  }
+
+  @media (width >= 992px) {
+    .container {
+      max-width: var(--width-container-lg);
+    }
+  }
+
+  @media (width >= 1200px) {
+    .container {
+      max-width: var(--width-container-xl);
+    }
+  }
+
+  @media (width >= 1400px) {
+    .container {
+      max-width: var(--width-container-xxl);
+    }
+  }
+
+  @media (width >= 1600px) {
+    .container {
+      max-width: var(--width-container-2xl);
+    }
+  }
+}
+
