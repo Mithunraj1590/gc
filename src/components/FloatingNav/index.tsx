@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type NavItem = {
   id: string;
@@ -35,9 +35,27 @@ export default function FloatingNav({ onAiToggle }: FloatingNavProps) {
     {
       id: 1,
       type: "bot",
-      text: "I'm Creative Intelligence - a senior-level AI combining brand strategy, performance marketing, and creative direction.\n\nTo generate your Creative Intelligence Report, tell me about your business.",
+      text: "I'm Creative Intelligence — strategy, performance, and creative direction in one thread.\n\nShare your business context and I'll shape a Creative Intelligence Report you can act on.",
     },
   ]);
+
+  const messagesScrollRef = useRef<HTMLDivElement | null>(null);
+
+  const setChatOpen = useCallback(
+    (open: boolean) => {
+      setAiOpen(open);
+      onAiToggle?.(open);
+    },
+    [onAiToggle],
+  );
+
+  const toggleChat = useCallback(() => {
+    setAiOpen((prev) => {
+      const next = !prev;
+      onAiToggle?.(next);
+      return next;
+    });
+  }, [onAiToggle]);
 
   const canSend = input.trim().length > 0 && !typing;
 
@@ -48,6 +66,22 @@ export default function FloatingNav({ onAiToggle }: FloatingNavProps) {
       document.body.style.overflow = "";
     };
   }, [reportOpen]);
+
+  useEffect(() => {
+    if (!aiOpen) return;
+    const el = messagesScrollRef.current;
+    if (!el) return;
+    el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+  }, [aiOpen, messages, typing]);
+
+  useEffect(() => {
+    if (!aiOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setChatOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [aiOpen, setChatOpen]);
 
   const quickGuidance = useMemo(
     () => [
@@ -92,10 +126,10 @@ export default function FloatingNav({ onAiToggle }: FloatingNavProps) {
   return (
     <>
       <nav
-        className="pointer-events-none fixed inset-x-0 bottom-10 z-[4000] flex justify-center"
+        className="pointer-events-none fixed inset-x-0 bottom-10 z-4000 flex justify-center"
         aria-label="Bottom navigation"
       >
-        <div className="pointer-events-auto flex items-center gap-1 rounded-[4px] border border-white/8 bg-[rgba(10,10,10,0.88)] px-4 py-[0.55rem] pr-[0.6rem] shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-[24px] [backdrop-filter:saturate(180%)]">
+        <div className="pointer-events-auto flex items-center gap-1 rounded-[4px] border border-white/8 bg-[rgba(10,10,10,0.88)] px-4 py-[0.55rem] pr-[0.6rem] shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl [backdrop-filter:saturate(180%)]">
           {NAV_ITEMS.map((item, index) => {
             const isActive = activeItem === item.id;
 
@@ -105,7 +139,7 @@ export default function FloatingNav({ onAiToggle }: FloatingNavProps) {
                 href={item.href}
                 title={item.label}
                 onClick={() => setActiveItem(item.id)}
-                className={`font-home-banner-heading flex items-center gap-1 rounded-[2px] px-3 py-[0.35rem] text-[0.63rem] font-medium uppercase tracking-[0.1em] transition-opacity duration-200 ${
+                className={`font-home-banner-heading flex items-center gap-1 rounded-[2px] px-3 py-[0.35rem] text-[0.63rem] font-medium uppercase tracking-widest transition-opacity duration-200 ${
                   isActive ? "opacity-100" : "opacity-[0.38] hover:opacity-100"
                 }`}
               >
@@ -136,13 +170,7 @@ export default function FloatingNav({ onAiToggle }: FloatingNavProps) {
             id="ci-trigger"
             type="button"
             title="Creative Intelligence"
-            onClick={() => {
-              setAiOpen((prev) => {
-                const next = !prev;
-                onAiToggle?.(next);
-                return next;
-              });
-            }}
+            onClick={toggleChat}
             className={`flex h-[34px] w-[34px] items-center justify-center p-0 transition-all duration-300 ease-[cubic-bezier(0.34_1.56_0.64_1)] ${
               aiOpen ? "scale-110 opacity-100" : "opacity-50 hover:scale-110 hover:opacity-100"
             }`}
@@ -158,50 +186,61 @@ export default function FloatingNav({ onAiToggle }: FloatingNavProps) {
 
       <div
         id="ci-chat"
+        role="dialog"
+        aria-modal="false"
+        aria-labelledby="ci-chat-title"
         aria-hidden={!aiOpen}
-        className={`fixed bottom-26 right-8 z-[5000] flex w-[340px] flex-col overflow-hidden border border-white/8 bg-[#0d0d0d] shadow-[0_24px_64px_rgba(0,0,0,0.7)] transition-all duration-300 ease-out max-md:right-4 max-md:w-[calc(100vw-2rem)] ${
+        className={`fixed bottom-26 right-8 z-5000 flex w-[min(100%,380px)] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-sm border border-white/10 bg-[#0a0a0a] shadow-[0_24px_64px_rgba(0,0,0,0.72)] transition-all duration-300 ease-out max-md:right-4 ${
           aiOpen ? "translate-y-0 opacity-100 pointer-events-auto" : "translate-y-5 opacity-0 pointer-events-none"
         }`}
       >
-        <div className="flex items-center justify-between border-b border-white/6 bg-[#0a0a0a] px-5 py-4">
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 animate-[spin_12s_linear_infinite] text-white">
-              <svg viewBox="0 0 32 32" fill="none">
+        <div className="flex items-center justify-between border-b border-white/10 bg-[#080808] px-5 py-4">
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="h-8 w-8 shrink-0 animate-[spin_12s_linear_infinite] text-[#C8A96E]">
+              <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
                 <circle cx="16" cy="16" r="13" stroke="currentColor" strokeWidth="1" strokeDasharray="3 2.5" />
                 <circle cx="16" cy="16" r="4" fill="currentColor" />
               </svg>
             </div>
-            <div>
-              <div className="font-home-banner-heading text-[0.72rem] font-semibold uppercase tracking-[0.08em] text-white">
+            <div className="min-w-0">
+              <div
+                id="ci-chat-title"
+                className="font-home-banner-heading truncate text-[0.72rem] font-semibold uppercase tracking-[0.08em] text-white"
+              >
                 Creative Intelligence
               </div>
-              <div className="text-[0.65rem] text-white/40">
-                <span className="mr-1.5 inline-block h-[5px] w-[5px] rounded-full bg-green-400" />
-                Brand Report Engine
+              <div className="truncate text-[0.65rem] text-white/45">
+                <span className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#C8A96E] align-middle ring-2 ring-[#C8A96E]/25" />
+                Brand report engine · Ready
               </div>
             </div>
           </div>
           <button
             id="ci-close"
             type="button"
-            title="Close"
-            onClick={() => setAiOpen(false)}
-            className="p-1 text-white/35 hover:text-white"
+            title="Close chat"
+            aria-label="Close Creative Intelligence chat"
+            onClick={() => setChatOpen(false)}
+            className="shrink-0 rounded-sm p-1.5 text-white/40 transition-colors hover:bg-white/5 hover:text-white"
           >
-            <svg viewBox="0 0 16 16" fill="none" width="14" height="14">
+            <svg viewBox="0 0 16 16" fill="none" width="14" height="14" aria-hidden="true">
               <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
           </button>
         </div>
 
-        <div id="ci-messages" className="flex min-h-[200px] max-h-[300px] flex-1 flex-col gap-3 overflow-y-auto p-5">
+        <div
+          id="ci-messages"
+          ref={messagesScrollRef}
+          className="flex min-h-[220px] max-h-[min(52vh,340px)] flex-col gap-3 overflow-y-auto scroll-smooth bg-[#0a0a0a] p-5"
+        >
           {messages.map((msg) => (
             <div key={msg.id} className={`flex ${msg.type === "user" ? "justify-end" : "justify-start"}`}>
               <div
-                className={`max-w-[88%] border px-4 py-3 text-[0.82rem] leading-[1.55] ${
+                className={`max-w-[90%] rounded-sm border px-4 py-3 text-[0.82rem] leading-normal ${
                   msg.type === "user"
-                    ? "border-transparent bg-white text-black"
-                    : "border-white/6 bg-white/5 text-white"
+                    ? "border-[#C8A96E]/35 bg-white text-black"
+                    : "border-white/8 bg-white/4 text-white/90"
                 }`}
               >
                 {msg.text.split("\n").map((line, i) => (
@@ -212,33 +251,39 @@ export default function FloatingNav({ onAiToggle }: FloatingNavProps) {
           ))}
           {typing ? (
             <div className="flex justify-start">
-              <div className="max-w-[88%] border border-white/6 bg-white/5 px-4 py-3 text-[1.1rem] tracking-[0.25rem] text-white/35">
-                ···
+              <div className="flex max-w-[90%] items-center gap-1 rounded-sm border border-white/8 bg-white/4 px-4 py-3">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#C8A96E]" />
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#C8A96E]" style={{ animationDelay: "150ms" }} />
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#C8A96E]" style={{ animationDelay: "300ms" }} />
               </div>
             </div>
           ) : null}
         </div>
 
-        <div className="flex gap-2 border-t border-white/6 bg-[#0a0a0a] px-4 py-3">
+        <div className="flex gap-2 border-t border-white/10 bg-[#080808] px-4 py-3">
           <input
             id="ci-input"
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "Enter") handleSend();
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+              }
             }}
-            placeholder="Describe your business..."
+            placeholder="Describe your business, offer, and audience…"
             autoComplete="off"
-            className="flex-1 border border-white/8 bg-white/4 px-3.5 py-2.5 text-[0.8rem] text-white outline-none placeholder:text-white/40 focus:border-white/25"
+            className="min-w-0 flex-1 rounded-sm border border-white/10 bg-white/4 px-3.5 py-2.5 text-[0.8rem] text-white outline-none placeholder:text-white/38 focus:border-[#C8A96E]/45 focus:ring-1 focus:ring-[#C8A96E]/30"
           />
           <button
             id="ci-send"
             type="button"
-            title="Generate Report"
+            title="Send and generate report"
+            aria-label="Send message and generate report"
             onClick={handleSend}
             disabled={!canSend}
-            className="flex h-[34px] w-[34px] shrink-0 items-center justify-center border-none bg-white text-black disabled:opacity-40"
+            className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-sm border border-[#C8A96E]/40 bg-[#C8A96E] text-black transition-[filter,opacity] hover:brightness-110 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/15 disabled:text-white/35 disabled:hover:brightness-100"
           >
             <svg viewBox="0 0 16 16" fill="none" width="14" height="14">
               <path
@@ -256,7 +301,7 @@ export default function FloatingNav({ onAiToggle }: FloatingNavProps) {
       <div
         id="ci-report-modal"
         aria-hidden={!reportOpen}
-        className={`fixed inset-0 z-[9000] overflow-y-auto bg-black/95 transition-opacity duration-300 ${
+        className={`fixed inset-0 z-9000 overflow-y-auto bg-black/95 transition-opacity duration-300 ${
           reportOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
       >

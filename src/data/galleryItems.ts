@@ -5,6 +5,13 @@ export type GalleryItem = Readonly<{
   category: string;
   year: string;
   longDescription: string;
+  detailedNarrative: string[];
+  phaseBreakdown: ReadonlyArray<{
+    phase: string;
+    goal: string;
+    execution: string;
+    output: string;
+  }>;
   challenge: string;
   objective: string;
   timeline: string;
@@ -25,6 +32,31 @@ This project combined strategic diagnosis, architecture-level redesign, and exec
 The focus was to remove fragmentation, increase organizational clarity, and establish an adaptive growth framework that can sustain change beyond a launch window.
 Every phase was measured, stress-tested, and optimized through iterative feedback loops so decisions were based on evidence, not assumptions.
 The final system enabled the team to move faster with higher confidence, stronger creative consistency, and measurable commercial impact across key performance layers.`,
+  detailedNarrative: [
+    `Initial audit exposed disconnects between brand strategy, campaign execution, and reporting logic. Teams were moving fast, but without a shared decision framework, resulting in duplicated effort and inconsistent output quality.`,
+    `A mission-control model was then introduced: shared planning cadence, measurable execution checkpoints, and aligned creative/performance feedback loops. This removed guesswork and replaced reactive work with controlled iteration.`,
+    `As implementation matured, decisions shifted from opinion-led to evidence-led. The organization gained stronger strategic coherence, faster launch velocity, and a repeatable operating model that can scale with market complexity.`,
+  ],
+  phaseBreakdown: [
+    {
+      phase: "Phase 01 - Diagnose",
+      goal: "Identify root-cause performance friction across brand, funnel, and operations.",
+      execution: "Conducted audits, stakeholder interviews, and baseline data mapping with a unified scoring framework.",
+      output: "Priority matrix, risk map, and actionable constraints list for immediate optimization.",
+    },
+    {
+      phase: "Phase 02 - Rebuild",
+      goal: "Re-architect strategy, systems, and execution standards for clarity and scale.",
+      execution: "Built message architecture, workflow governance, and channel-specific delivery playbooks.",
+      output: "Operational playbook, systemized creative framework, and aligned execution roadmap.",
+    },
+    {
+      phase: "Phase 03 - Relaunch",
+      goal: "Deploy the new model with measurable outcomes and controlled scaling.",
+      execution: "Launched phased campaigns, monitored KPI signals, and optimized through weekly iteration loops.",
+      output: "Improved efficiency, stronger conversion reliability, and sustained growth-ready operations.",
+    },
+  ],
   challenge: `${title} faced fragmented execution across channels, inconsistent messaging, and weak feedback loops between strategy and delivery.`,
   objective: `Build a unified ${category.toLowerCase()} operating model that improves decision quality, execution speed, and measurable business outcomes.`,
   timeline: "12-week structured transformation split into Diagnose, Rebuild, and Relaunch phases.",
@@ -44,10 +76,10 @@ The final system enabled the team to move faster with higher confidence, stronge
 
 export const galleryItems: GalleryItem[] = [
   {
-    slug: "signal-engine",
-    src: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80",
-    title: "Signal Engine",
-    category: "Brand Systems",
+    slug: "experience-abu-dhabi",
+    src: "/Experience-Abu-Dhabi/1.png",
+    title: "Experience Abu Dhabi",
+    category: "Destination Campaign",
     year: "2026",
     modeOfOperation: [
       "Weekly diagnostic sprint with stakeholder alignment",
@@ -64,13 +96,13 @@ export const galleryItems: GalleryItem[] = [
       "22% lower paid CAC after 8 weeks",
       "Clearer positioning consistency across all campaigns",
     ],
-    ...buildCaseStudyDetails("Signal Engine", "Brand Systems"),
+    ...buildCaseStudyDetails("Experience Abu Dhabi", "Destination Campaign"),
   },
   {
-    slug: "command-panel",
-    src: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=80",
-    title: "Command Panel",
-    category: "Interface",
+    slug: "leisurescapes",
+    src: "/Leisurescapes/1.png",
+    title: "Leisurescapes",
+    category: "Travel Brand",
     year: "2025",
     modeOfOperation: [
       "Heuristic UX audits and friction scoring",
@@ -87,13 +119,13 @@ export const galleryItems: GalleryItem[] = [
       "14% drop in bounce from key landing routes",
       "Faster average task completion time by 27%",
     ],
-    ...buildCaseStudyDetails("Command Panel", "Interface"),
+    ...buildCaseStudyDetails("Leisurescapes", "Travel Brand"),
   },
   {
-    slug: "media-matrix",
-    src: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=80",
-    title: "Media Matrix",
-    category: "Campaign",
+    slug: "pareed-trading",
+    src: "/PAREED-TRADING/1.png",
+    title: "PAREED TRADING",
+    category: "Commerce Identity",
     year: "2026",
     modeOfOperation: [
       "Budget command center with daily pacing controls",
@@ -110,13 +142,13 @@ export const galleryItems: GalleryItem[] = [
       "42% increase in campaign consistency score",
       "Reduced waste spend on non-performing placements",
     ],
-    ...buildCaseStudyDetails("Media Matrix", "Campaign"),
+    ...buildCaseStudyDetails("PAREED TRADING", "Commerce Identity"),
   },
   {
-    slug: "orbit-sequence",
-    src: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1400&q=80",
-    title: "Orbit Sequence",
-    category: "Motion",
+    slug: "w2w",
+    src: "/W2W/1.png",
+    title: "W2W",
+    category: "Digital Presence",
     year: "2024",
     modeOfOperation: [
       "Narrative sprints tied to launch milestones",
@@ -133,13 +165,13 @@ export const galleryItems: GalleryItem[] = [
       "Improved brand recall in post-campaign surveys",
       "Faster production turnaround via reusable templates",
     ],
-    ...buildCaseStudyDetails("Orbit Sequence", "Motion"),
+    ...buildCaseStudyDetails("W2W", "Digital Presence"),
   },
   {
-    slug: "vector-grid",
-    src: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?auto=format&fit=crop&w=1400&q=80",
-    title: "Vector Grid",
-    category: "Identity",
+    slug: "desertescapes",
+    src: "/desertescapes/1.png",
+    title: "Desertescapes",
+    category: "Adventure Brand",
     year: "2025",
     modeOfOperation: [
       "Identity audits with consistency scoring",
@@ -156,13 +188,13 @@ export const galleryItems: GalleryItem[] = [
       "Reduced design production overhead significantly",
       "Higher perceived trust in user testing sessions",
     ],
-    ...buildCaseStudyDetails("Vector Grid", "Identity"),
+    ...buildCaseStudyDetails("Desertescapes", "Adventure Brand"),
   },
   {
-    slug: "fractal-flow",
-    src: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1400&q=80",
-    title: "Fractal Flow",
-    category: "Digital",
+    slug: "leisurescapes-experience",
+    src: "/Leisurescapes/2.png",
+    title: "Leisurescapes Experience",
+    category: "Campaign System",
     year: "2026",
     modeOfOperation: [
       "Operational mapping of digital lifecycle",
@@ -179,13 +211,13 @@ export const galleryItems: GalleryItem[] = [
       "Greater forecasting accuracy for quarterly planning",
       "More stable execution under peak campaign load",
     ],
-    ...buildCaseStudyDetails("Fractal Flow", "Digital"),
+    ...buildCaseStudyDetails("Leisurescapes Experience", "Campaign System"),
   },
   {
-    slug: "growth-circuit",
-    src: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=1400&q=80",
-    title: "Growth Circuit",
-    category: "Performance",
+    slug: "abu-dhabi-digital-rollout",
+    src: "/Experience-Abu-Dhabi/2.png",
+    title: "Abu Dhabi Digital Rollout",
+    category: "Brand Rollout",
     year: "2025",
     modeOfOperation: [
       "Experiment backlog with priority scoring",
@@ -202,6 +234,6 @@ export const galleryItems: GalleryItem[] = [
       "Improved efficiency at higher spend levels",
       "Clear operating model for future growth cycles",
     ],
-    ...buildCaseStudyDetails("Growth Circuit", "Performance"),
+    ...buildCaseStudyDetails("Abu Dhabi Digital Rollout", "Brand Rollout"),
   },
 ];
