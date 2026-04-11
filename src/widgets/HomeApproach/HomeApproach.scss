@@ -1,0 +1,381 @@
+.home-approach.blueprint-section {
+  --font-heading: var(--font-inter), system-ui, sans-serif;
+  --font-body: var(--font-geist-sans), system-ui, sans-serif;
+  --white: #fff;
+
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
+.home-approach .container-large {
+  width: 100%;
+  max-width: min(100%, 1680px);
+  margin-inline: auto;
+  padding-inline: 15px;
+}
+
+.home-approach .fig-title-block {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 0;
+  background: #050505;
+}
+
+.home-approach .fig-tb-left,
+.home-approach .fig-tb-right {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.home-approach .fig-tb-right {
+  border-right: none;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.home-approach .fig-tb-cell {
+  padding: 0.6rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 140px;
+}
+
+@media (width >= 768px) {
+  .home-approach .fig-tb-cell {
+    min-width: 160px;
+  }
+}
+
+.home-approach .fig-tb-cell:last-child {
+  border-bottom: none;
+}
+
+.home-approach .fig-tb-code {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.home-approach .fig-meta-label {
+  font-family: var(--font-heading);
+  font-size: 0.48rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  opacity: 0.3;
+  display: block;
+}
+
+.home-approach .fig-meta-value {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  display: block;
+}
+
+.home-approach .fig-tb-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1rem;
+  text-align: center;
+  gap: 0.4rem;
+}
+
+@media (width >= 768px) {
+  .home-approach .fig-tb-center {
+    padding: 1.5rem 2rem;
+  }
+}
+
+.home-approach .fig-tb-title {
+  font-family: var(--font-heading);
+  font-size: clamp(0.72rem, 2vw, 1.1rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.home-approach .fig-tb-subtitle {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  opacity: 0.3;
+  text-transform: uppercase;
+}
+
+@media (width >= 768px) {
+  .home-approach .fig-tb-subtitle {
+    font-size: 0.65rem;
+  }
+}
+
+.home-approach .fig-status-live {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #4ade80;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.home-approach .fig-status-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: #4ade80;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: home-approach-pulse-dot 2s ease-in-out infinite;
+}
+
+.home-approach .engine-scroll-track {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.home-approach .engine-scroll-container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  background: #000;
+}
+
+/* Clips the sequence only; container stays overflow:visible so full-bleed gradient works */
+.home-approach .engine-canvas-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.home-approach .engine-canvas {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.92;
+}
+
+/* Blur top / right / left / bottom bands only; rectangular center stays sharp (SVG frame mask) */
+.home-approach .engine-canvas-corner-blur {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.02);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1' preserveAspectRatio='none'%3E%3Crect width='1' height='1' fill='white'/%3E%3Crect x='0.1' y='0.1' width='0.8' height='0.8' fill='black'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1' preserveAspectRatio='none'%3E%3Crect width='1' height='1' fill='white'/%3E%3Crect x='0.1' y='0.1' width='0.8' height='0.8' fill='black'/%3E%3C/svg%3E");
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-approach .engine-canvas-corner-blur {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    display: none;
+  }
+}
+
+/* Viewport-wide vignette (breaks out of any pinned/narrow width) */
+.home-approach .engine-scroll-gradient {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  max-width: none;
+  transform: translateX(-50%);
+  z-index: 5;
+  pointer-events: none;
+  background:
+    linear-gradient(to top, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.35) 42%, rgba(0, 0, 0, 0.06) 100%),
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.62) 0%,
+      rgba(0, 0, 0, 0.1) 32%,
+      rgba(0, 0, 0, 0.05) 55%,
+      rgba(0, 0, 0, 0.12) 82%,
+      rgba(0, 0, 0, 0.22) 100%
+    );
+}
+
+.home-approach .engine-overlay-texts {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.home-approach .engine-text-step {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: auto;
+}
+
+.home-approach .ets-left,
+.home-approach .ets-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(90%, 560px);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+}
+
+@media (width >= 768px) {
+  .home-approach .ets-left,
+  .home-approach .ets-right {
+    width: min(35%, 560px);
+  }
+}
+
+.home-approach .ets-left {
+  left: 6vw;
+}
+
+.home-approach .ets-right {
+  right: 6vw;
+}
+
+@media (width >= 768px) {
+  .home-approach .ets-left {
+    left: 8vw;
+  }
+
+  .home-approach .ets-right {
+    right: 8vw;
+  }
+}
+
+.home-approach .ets-line {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 1rem 0;
+}
+
+@media (width >= 768px) {
+  .home-approach .ets-line {
+    margin: 1.5rem 0;
+  }
+}
+
+.home-approach .ets-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 5vw, 3rem);
+  line-height: 0.9;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--white);
+}
+
+.home-approach .ets-heading span {
+  display: block;
+  font-size: clamp(2.25rem, 6.5vw, 4rem);
+  margin-bottom: 0.5rem;
+}
+
+.home-approach .ets-description {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 450px;
+}
+
+.home-approach .ets-right .bp-powered {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-heading);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+}
+
+@keyframes home-approach-pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-approach .engine-scroll-track {
+    min-height: auto;
+  }
+
+  .home-approach .engine-scroll-container {
+    height: auto;
+    min-height: 72vh;
+  }
+
+  .home-approach .engine-overlay-texts {
+    position: relative;
+    top: auto;
+    transform: none;
+    padding: 2rem 0 3rem;
+  }
+
+  .home-approach .engine-text-step {
+    position: relative;
+    height: auto;
+    opacity: 1 !important;
+    visibility: visible !important;
+    margin-bottom: 2.5rem;
+  }
+
+  .home-approach .ets-left,
+  .home-approach .ets-right {
+    position: relative;
+    top: auto;
+    transform: none;
+    width: 100%;
+    left: auto;
+    right: auto;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .home-approach .fig-status-dot {
+    animation: none;
+  }
+}
