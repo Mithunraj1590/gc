@@ -1,5 +1,8 @@
 "use client";
 
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { useRef } from "react";
+
 type HomeBlogProps = Readonly<{
   className?: string;
 }>;
@@ -44,16 +47,30 @@ const posts: BlogPost[] = [
 ];
 
 export default function HomeBlog({ className = "" }: HomeBlogProps) {
+  const sectionRef = useRef<HTMLElement>(null);
+  useScrollReveal(sectionRef, { stagger: 0.11, y: 40 });
+
   return (
-    <section id="blog" className={`py-16 md:py-20 ${className}`.trim()} aria-label="Blog">
+    <section
+      ref={sectionRef}
+      id="blog"
+      className={`py-16 md:py-20 ${className}`.trim()}
+      aria-label="Blog"
+    >
       <div className="container">
-        <div className="mb-10 flex items-center gap-4 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/55 before:block before:h-px before:w-24 before:bg-white/45 md:before:w-36 lg:before:w-48">
+        <div
+          data-reveal
+          className="mb-10 flex items-center gap-4 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/55 before:block before:h-px before:w-24 before:bg-white/45 md:before:w-36 lg:before:w-48"
+        >
           Insights
         </div>
 
         <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <h2 className="h2 max-w-[760px]">Signal-driven thinking for modern growth teams.</h2>
+          <h2 data-reveal className="h2 max-w-[760px]">
+            Signal-driven thinking for modern growth teams.
+          </h2>
           <a
+            data-reveal
             href="#"
             className="inline-flex w-fit items-center gap-2 border-b border-white/25 pb-1 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-white/70 transition-colors hover:border-[#C8A96E] hover:text-[#C8A96E]"
           >
@@ -65,6 +82,7 @@ export default function HomeBlog({ className = "" }: HomeBlogProps) {
           {posts.map((post) => (
             <article
               key={post.title}
+              data-reveal
               className="group relative overflow-hidden border border-white/10 bg-white/2 transition-colors duration-300 hover:border-[#C8A96E]/45 hover:bg-white/4"
             >
               <div className="relative h-48 overflow-hidden border-b border-white/10">

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 
 type HomeServiceProps = Readonly<{
@@ -143,6 +144,9 @@ const features = [
 ];
 
 export default function HomeService({ className = "" }: HomeServiceProps) {
+  const sectionRef = useRef<HTMLElement>(null);
+  useScrollReveal(sectionRef, { stagger: 0.12, y: 36, duration: 0.8 });
+
   const [activeCard, setActiveCard] = useState<number | null>(null);
   const [isHoveringGrid, setIsHoveringGrid] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
@@ -162,6 +166,7 @@ export default function HomeService({ className = "" }: HomeServiceProps) {
 
   return (
     <section
+      ref={sectionRef}
       id="services"
       className={`relative border-t border-white/10 py-[100px] text-white ${className}`.trim()}
       style={{
@@ -170,12 +175,15 @@ export default function HomeService({ className = "" }: HomeServiceProps) {
       }}
     >
       <div className="container">
-        <div className="mb-8 flex items-center gap-4 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/55 before:block before:h-px before:w-24 before:bg-white/45 md:before:w-16 lg:before:w-18">
+        <div
+          data-reveal
+          className="mb-8 flex items-center gap-4 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/55 before:block before:h-px before:w-24 before:bg-white/45 md:before:w-16 lg:before:w-18"
+        >
           Core Difference
         </div>
 
         <div className="grid gap-10 lg:grid-cols-[480px_1fr] lg:gap-16">
-          <div>
+          <div data-reveal>
          
             <h2 className="h2 mb-5">
               We don&apos;t guess.
@@ -226,7 +234,8 @@ export default function HomeService({ className = "" }: HomeServiceProps) {
 
           <div
             id="services-grid"
-            className="grid grid-cols-1 gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-3"
+            data-reveal
+            className="min-w-0 grid grid-cols-1 gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-3"
             onMouseEnter={() => {
               setIsHoveringGrid(true);
               setActiveCard(null);

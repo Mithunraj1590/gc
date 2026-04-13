@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import gsap from "gsap";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 type NavItem = {
   id: string;
@@ -40,6 +41,25 @@ export default function FloatingNav({ onAiToggle }: FloatingNavProps) {
   ]);
 
   const messagesScrollRef = useRef<HTMLDivElement | null>(null);
+  const bottomNavPillRef = useRef<HTMLDivElement | null>(null);
+
+  useLayoutEffect(() => {
+    const el = bottomNavPillRef.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(el, {
+        opacity: 0,
+        y: 28,
+        duration: 0.85,
+        ease: "power2.out",
+        delay: 0.85,
+      });
+    }, el);
+
+    return () => ctx.revert();
+  }, []);
 
   const setChatOpen = useCallback(
     (open: boolean) => {
@@ -129,7 +149,10 @@ export default function FloatingNav({ onAiToggle }: FloatingNavProps) {
         className="pointer-events-none fixed inset-x-0 bottom-10 z-4000 flex justify-center"
         aria-label="Bottom navigation"
       >
-        <div className="pointer-events-auto flex items-center gap-1 rounded-[4px] border border-white/8 bg-[rgba(10,10,10,0.88)] px-4 py-[0.55rem] pr-[0.6rem] shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl [backdrop-filter:saturate(180%)]">
+        <div
+          ref={bottomNavPillRef}
+          className="pointer-events-auto flex items-center gap-1 rounded-[4px] border border-white/8 bg-[rgba(10,10,10,0.88)] px-4 py-[0.55rem] pr-[0.6rem] shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl [backdrop-filter:saturate(180%)]"
+        >
           {NAV_ITEMS.map((item, index) => {
             const isActive = activeItem === item.id;
 

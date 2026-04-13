@@ -4,3 +4,40 @@
     linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.05) 100%),
     linear-gradient(to right, rgba(0, 0, 0, 0.6) 0%, transparent 60%);
 }
+
+/*
+ * First-paint hide for landing animation (matches GSAP initial state).
+ * Only when user allows motion — avoids flash before client JS runs.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .home-banner[data-banner-landing="pre"] [data-gsap="banner-fractal"] {
+    opacity: 0;
+    transform: scale(1.08);
+    transform-origin: 50% 45%;
+    filter: blur(14px);
+  }
+
+  .home-banner[data-banner-landing="pre"] [data-gsap="banner-vignette"] {
+    opacity: 0;
+  }
+
+  .home-banner[data-banner-landing="pre"] [data-gsap="banner-eyebrow"] {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+
+  .home-banner[data-banner-landing="pre"] [data-gsap="banner-title"] {
+    opacity: 0;
+    transform: translate3d(0, 72px, 0);
+  }
+
+  .home-banner[data-banner-landing="pre"] [data-gsap="banner-sub"] {
+    opacity: 0;
+    transform: translate3d(0, 36px, 0);
+  }
+
+  .home-banner[data-banner-landing="pre"] [data-gsap="banner-ctas"] {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+}

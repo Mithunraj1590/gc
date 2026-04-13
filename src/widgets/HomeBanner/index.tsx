@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import {
   GLSL1,
@@ -97,36 +97,79 @@ export default function HomeBanner({ imageSrc = "/welcome.webp" }: HomeBannerPro
   const sectionRef = useRef<HTMLElement>(null);
   const fractalRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const root = sectionRef.current;
     if (!root) return;
 
     const ctx = gsap.context(() => {
-      gsap.from("[data-gsap='banner-title']", {
-        y: 100,
-        opacity: 0,
-        stagger: 0.2,
-        delay: 0.5,
-        duration: 1.5,
-        ease: "expo.out",
+      const fractal = root.querySelector<HTMLElement>("[data-gsap='banner-fractal']");
+      const vignette = root.querySelector<HTMLElement>("[data-gsap='banner-vignette']");
+      const eyebrow = root.querySelector<HTMLElement>("[data-gsap='banner-eyebrow']");
+      const title = root.querySelector<HTMLElement>("[data-gsap='banner-title']");
+      const sub = root.querySelector<HTMLElement>("[data-gsap='banner-sub']");
+      const ctas = root.querySelector<HTMLElement>("[data-gsap='banner-ctas']");
+
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduceMotion) {
+        root.removeAttribute("data-banner-landing");
+        return;
+      }
+
+      if (fractal) {
+        gsap.set(fractal, {
+          opacity: 0,
+          scale: 1.08,
+          transformOrigin: "50% 45%",
+          filter: "blur(14px)",
+        });
+      }
+      if (vignette) gsap.set(vignette, { opacity: 0 });
+      if (eyebrow) gsap.set(eyebrow, { opacity: 0, y: 18 });
+      if (title) gsap.set(title, { opacity: 0, y: 72 });
+      if (sub) gsap.set(sub, { opacity: 0, y: 36 });
+      if (ctas) gsap.set(ctas, { opacity: 0, y: 24 });
+
+      const tl = gsap.timeline({
+        defaults: { ease: "power3.out" },
+        onComplete: () => {
+          root.removeAttribute("data-banner-landing");
+        },
       });
-      gsap.from("[data-gsap='banner-sub']", {
-        y: 50,
-        opacity: 0,
-        duration: 1.5,
-        ease: "expo.out",
-        delay: 0.8,
-      });
-      gsap.from("[data-gsap='banner-ctas']", {
-        y: 30,
-        opacity: 0,
-        duration: 1.5,
-        ease: "expo.out",
-        delay: 1,
-      });
+
+      if (fractal) {
+        tl.to(
+          fractal,
+          {
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 1.45,
+            ease: "power2.out",
+          },
+          0,
+        );
+      }
+      if (vignette) {
+        tl.to(vignette, { opacity: 1, duration: 1.05, ease: "power1.out" }, 0.12);
+      }
+      if (eyebrow) {
+        tl.to(eyebrow, { opacity: 1, y: 0, duration: 0.75, ease: "expo.out" }, 0.32);
+      }
+      if (title) {
+        tl.to(title, { opacity: 1, y: 0, duration: 1.25, ease: "expo.out" }, 0.48);
+      }
+      if (sub) {
+        tl.to(sub, { opacity: 1, y: 0, duration: 1.05, ease: "expo.out" }, 0.62);
+      }
+      if (ctas) {
+        tl.to(ctas, { opacity: 1, y: 0, duration: 0.95, ease: "expo.out" }, 0.78);
+      }
     }, root);
 
-    return () => ctx.revert();
+    return () => {
+      root.removeAttribute("data-banner-landing");
+      ctx.revert();
+    };
   }, []);
 
   useEffect(() => {
@@ -240,17 +283,26 @@ export default function HomeBanner({ imageSrc = "/welcome.webp" }: HomeBannerPro
       ref={sectionRef}
       id="home"
       aria-label="Hero"
-      className="font-home-banner relative flex h-screen flex-row items-end justify-start overflow-hidden bg-black leading-relaxed text-[#f5f5f7] antialiased"
+      data-banner-landing="pre"
+      className="home-banner font-home-banner relative flex h-screen flex-row items-end justify-start overflow-hidden bg-black leading-relaxed text-[#f5f5f7] antialiased"
     >
       <div
         ref={fractalRef}
+        data-gsap="banner-fractal"
         className="absolute inset-0 z-[1] [&_canvas]:block [&_canvas]:!h-full [&_canvas]:!w-full [&_canvas]:grayscale"
         aria-hidden
       />
-      <div className="homeBannerGradientOverlay pointer-events-none absolute inset-0 z-[2]" aria-hidden />
+      <div
+        data-gsap="banner-vignette"
+        className="homeBannerGradientOverlay pointer-events-none absolute inset-0 z-[2]"
+        aria-hidden
+      />
       <div className="container relative z-10 w-full min-w-0 pb-24 text-left md:pb-28">
         <div className="max-w-[1040px]">
-          <div className="font-home-banner-heading mb-6 flex items-center gap-3 text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-[#f5f5f7]/40 before:block before:h-px before:w-5 before:shrink-0 before:bg-white/45 before:content-['']">
+          <div
+            data-gsap="banner-eyebrow"
+            className="font-home-banner-heading mb-6 flex items-center gap-3 text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-[#f5f5f7]/40 before:block before:h-px before:w-5 before:shrink-0 before:bg-white/45 before:content-['']"
+          >
             Defined by design.
           </div>
           <h1

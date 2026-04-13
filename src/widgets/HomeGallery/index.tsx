@@ -1,5 +1,6 @@
 "use client";
 
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { galleryItems, type GalleryItem } from "@/data/galleryItems";
@@ -11,6 +12,13 @@ type HomeGalleryProps = Readonly<{
 export default function HomeGallery({ className = "" }: HomeGalleryProps) {
   const [hero, topRightA, topRightB, ...bottomRow] = galleryItems;
   const sectionRef = useRef<HTMLElement>(null);
+  useScrollReveal(sectionRef, {
+    selector: "[data-gallery-reveal]",
+    start: "top 90%",
+    stagger: 0.12,
+    y: 32,
+    duration: 0.72,
+  });
 
   const renderMeta = (item: GalleryItem) => (
     <div className="pointer-events-none absolute left-0 right-0 top-0 z-2 flex items-start justify-between bg-linear-to-b from-black/55 to-transparent p-4 text-[0.64rem] uppercase tracking-[0.14em] text-white md:p-5">
@@ -40,8 +48,8 @@ export default function HomeGallery({ className = "" }: HomeGalleryProps) {
         const center = rect.top + rect.height / 2;
         const progress = (center - viewportH / 2) / viewportH;
         const speed = Number(img.dataset.parallaxSpeed ?? 1);
-        const offsetY = progress * -72 * speed;
-        img.style.transform = `translate3d(0, ${offsetY.toFixed(2)}px, 0) scale(1.16)`;
+        const offsetY = progress * -42 * speed;
+        img.style.transform = `translate3d(0, ${offsetY.toFixed(2)}px, 0) scale(1.1)`;
       });
       rafId = 0;
     };
@@ -54,11 +62,17 @@ export default function HomeGallery({ className = "" }: HomeGalleryProps) {
     requestTick();
     window.addEventListener("scroll", requestTick, { passive: true });
     window.addEventListener("resize", requestTick);
+    images.forEach((img) => {
+      img.addEventListener("load", requestTick);
+    });
 
     return () => {
       if (rafId) window.cancelAnimationFrame(rafId);
       window.removeEventListener("scroll", requestTick);
       window.removeEventListener("resize", requestTick);
+      images.forEach((img) => {
+        img.removeEventListener("load", requestTick);
+      });
       images.forEach((img) => {
         img.style.transform = "";
       });
@@ -68,13 +82,19 @@ export default function HomeGallery({ className = "" }: HomeGalleryProps) {
   return (
     <section ref={sectionRef} className={`w-full py-[100px] ${className}`.trim()} aria-label="Gallery">
       <div className="container pb-8">
-        <p className="flex items-center gap-4 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/55 before:block before:h-px before:w-14 before:bg-white/45 md:before:w-36 lg:before:w-18">
+        <p
+          data-gallery-reveal
+          className="flex items-center gap-4 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/55 before:block before:h-px before:w-14 before:bg-white/45 md:before:w-36 lg:before:w-18"
+        >
           Selected Works
         </p>
       </div>
-      <div className="grid w-full gap-0">
+      <div data-gallery-reveal className="grid w-full gap-0">
         <div className="grid grid-cols-1 gap-0 md:grid-cols-[5fr_3fr]">
-          <Link href={`/case-study/${hero.slug}`} className="group relative m-0 block overflow-hidden md:min-h-[460px]">
+          <Link
+            href={`/case-study/${hero.slug}`}
+            className="group relative m-0 block aspect-[16/10] overflow-hidden md:min-h-[460px] md:aspect-auto"
+          >
             {renderMeta(hero)}
             <img
               src={hero.src}
@@ -87,7 +107,10 @@ export default function HomeGallery({ className = "" }: HomeGalleryProps) {
           </Link>
 
           <div className="grid grid-cols-1 gap-0">
-            <Link href={`/case-study/${topRightA.slug}`} className="group relative m-0 block overflow-hidden md:min-h-[230px]">
+            <Link
+              href={`/case-study/${topRightA.slug}`}
+              className="group relative m-0 block aspect-[16/10] overflow-hidden md:min-h-[230px] md:aspect-auto"
+            >
               {renderMeta(topRightA)}
               <img
                 src={topRightA.src}
@@ -98,7 +121,10 @@ export default function HomeGallery({ className = "" }: HomeGalleryProps) {
                 loading="lazy"
               />
             </Link>
-            <Link href={`/case-study/${topRightB.slug}`} className="group relative m-0 block overflow-hidden md:min-h-[230px]">
+            <Link
+              href={`/case-study/${topRightB.slug}`}
+              className="group relative m-0 block aspect-[16/10] overflow-hidden md:min-h-[230px] md:aspect-auto"
+            >
               {renderMeta(topRightB)}
               <img
                 src={topRightB.src}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useEffect, useRef, useState } from "react";
 import type { MouseEvent as ReactMouseEvent } from "react";
 
@@ -110,6 +111,9 @@ function RevealOverlay({ isActive, lines }: RevealOverlayProps) {
 }
 
 export default function HomeLines({ className = "" }: HomeLinesProps) {
+  const sectionRef = useRef<HTMLElement>(null);
+  useScrollReveal(sectionRef, { start: "top 86%", stagger: 0.12, y: 40 });
+
   const fadeTimersRef = useRef(new Map<HTMLElement, number>());
   const topElevenLeaveTimerRef = useRef<number | null>(null);
   const topTwentySevenLeaveTimerRef = useRef<number | null>(null);
@@ -196,20 +200,33 @@ export default function HomeLines({ className = "" }: HomeLinesProps) {
   };
 
   return (
-    <section className={`py-10 md:py-14 lg:py-[100px] ${className}`.trim()} aria-label="Home lines">
+    <section
+      ref={sectionRef}
+      className={`py-10 md:py-14 lg:py-[100px] ${className}`.trim()}
+      aria-label="Home lines"
+    >
       <div className="container">
         <div className="mb-8 flex items-center justify-between gap-4 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/55 md:mb-10">
-          <span className="flex items-center gap-4 before:block before:h-px before:w-14 before:bg-white/45 md:before:w-24">
+          <span
+            data-reveal
+            className="flex items-center gap-4 before:block before:h-px before:w-14 before:bg-white/45 md:before:w-24"
+          >
             Structured Signals
           </span>
-          <span className="max-w-[560px] text-[18px] font-light normal-case tracking-normal text-white/50">
+          <span
+            data-reveal
+            className="max-w-[560px] text-[18px] font-light normal-case tracking-normal text-white/50"
+          >
             We don't offer surface-level marketing. We diagnose, rebuild, and relaunch your brand — end to end.
             Designed for brands entering the market, established brands losing relevance, or those planning a
             comeback.
           </span>
         </div>
 
-        <div className="relative min-h-[200px] sm:min-h-[240px] md:min-h-[250px] lg:min-h-[260px] xl:min-h-[270px] 2xl:min-h-[280px]">
+        <div
+          data-reveal
+          className="relative min-h-[200px] sm:min-h-[240px] md:min-h-[250px] lg:min-h-[260px] xl:min-h-[270px] 2xl:min-h-[280px]"
+        >
           <div className="absolute inset-x-0 top-0 flex w-full items-end">
             {Array.from({ length: 33 }).map((_, i) => (
               <div
@@ -294,7 +311,10 @@ export default function HomeLines({ className = "" }: HomeLinesProps) {
           </div>
         </div>
 
-        <div className="relative min-h-[200px] sm:min-h-[240px] md:min-h-[250px] lg:min-h-[260px] xl:min-h-[270px] 2xl:min-h-[280px]">
+        <div
+          data-reveal
+          className="relative min-h-[200px] sm:min-h-[240px] md:min-h-[250px] lg:min-h-[260px] xl:min-h-[270px] 2xl:min-h-[280px]"
+        >
           <div className="absolute inset-x-0 top-0 flex w-full items-start">
             {Array.from({ length: 33 }).map((_, i) => (
               <div

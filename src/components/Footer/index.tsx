@@ -1,11 +1,21 @@
+"use client";
+
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { useRef } from "react";
+
 export default function Footer() {
   const year = new Date().getFullYear();
+  const footerRef = useRef<HTMLElement>(null);
+  useScrollReveal(footerRef, { start: "top 92%", stagger: 0.1, y: 32 });
 
   return (
-    <footer className="mt-24 border-t border-white/10 bg-black/40 backdrop-blur-[2px]">
+    <footer
+      ref={footerRef}
+      className="mt-24 border-t border-white/10 bg-black/40 backdrop-blur-[2px]"
+    >
       <div className="container py-14">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
-          <div>
+          <div data-reveal>
             <p className="mb-4 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/55">
               GC Mission Control
             </p>
@@ -19,7 +29,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div>
+          <div data-reveal>
             <p className="mb-4 text-[0.66rem] font-semibold uppercase tracking-[0.18em] text-white/50">
               Navigation
             </p>
@@ -42,7 +52,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div>
+          <div data-reveal>
             <p className="mb-4 text-[0.66rem] font-semibold uppercase tracking-[0.18em] text-white/50">
               Services
             </p>
@@ -54,7 +64,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div>
+          <div data-reveal>
             <p className="mb-4 text-[0.66rem] font-semibold uppercase tracking-[0.18em] text-white/50">
               Contact
             </p>
@@ -74,7 +84,10 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-4 border-t border-white/10 pt-5 text-[0.72rem] text-white/45 md:flex-row md:items-center md:justify-between">
+        <div
+          data-reveal
+          className="mt-10 flex flex-col gap-4 border-t border-white/10 pt-5 text-[0.72rem] text-white/45 md:flex-row md:items-center md:justify-between"
+        >
           <p>© {year} GC. All rights reserved.</p>
           <div className="flex items-center gap-5">
             <a href="#" className="transition-colors hover:text-[#C8A96E]">

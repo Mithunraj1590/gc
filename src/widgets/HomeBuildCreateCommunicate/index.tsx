@@ -1,5 +1,6 @@
 "use client";
 
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 import gsap from "gsap";
 import { useCallback, useLayoutEffect, useRef, useSyncExternalStore } from "react";
 import "./HomeBuildCreateCommunicate.scss";
@@ -241,6 +242,7 @@ export default function HomeBuildCreateCommunicate({ className = "" }: HomeBuild
   const wrapCreateRef = useRef<HTMLDivElement>(null);
   const wrapCommRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
+  useScrollReveal(sectionRef, { stagger: 0.18, y: 48 });
   const progressRef = useRef({ build: 0, create: 0, communicate: 0 });
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const hasPlayedRef = useRef(false);
@@ -364,7 +366,7 @@ export default function HomeBuildCreateCommunicate({ className = "" }: HomeBuild
       aria-label="Build, Create, Communicate"
     >
       <div className="home-bcc__grid">
-        <div className="home-bcc__panel home-bcc__panel--light">
+        <div className="home-bcc__panel home-bcc__panel--light" data-reveal>
           <div className="home-bcc__head">
             <h2 className="home-bcc__title">Build</h2>
             <span className="home-bcc__accent home-bcc__accent--fill" aria-hidden />
@@ -374,7 +376,7 @@ export default function HomeBuildCreateCommunicate({ className = "" }: HomeBuild
           </div>
         </div>
 
-        <div className="home-bcc__panel home-bcc__panel--dark">
+        <div className="home-bcc__panel home-bcc__panel--dark" data-reveal>
           <div className="home-bcc__head">
             <h2 className="home-bcc__title">Create</h2>
             <span className="home-bcc__accent home-bcc__accent--ring" aria-hidden />
@@ -384,7 +386,7 @@ export default function HomeBuildCreateCommunicate({ className = "" }: HomeBuild
           </div>
         </div>
 
-        <div className="home-bcc__panel home-bcc__panel--light">
+        <div className="home-bcc__panel home-bcc__panel--light" data-reveal>
           <div className="home-bcc__head">
             <h2 className="home-bcc__title">Communicate</h2>
             <span className="home-bcc__accent home-bcc__accent--fill" aria-hidden />

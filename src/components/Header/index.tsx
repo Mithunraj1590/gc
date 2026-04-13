@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 type LocationItem = Readonly<{
   city: string;
@@ -27,6 +27,7 @@ const formatLocationTime = (zone: string, offset: number) => {
 
 export default function Header() {
   const [currentLocationIndex, setCurrentLocationIndex] = useState(0);
+  const headerRef = useRef<HTMLElement>(null);
   const locTextRef = useRef<HTMLSpanElement>(null);
   const locTimeRef = useRef<HTMLSpanElement>(null);
 
@@ -64,10 +65,34 @@ export default function Header() {
     };
   }, []);
 
+  useLayoutEffect(() => {
+    const root = headerRef.current;
+    if (!root) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      const els = root.querySelectorAll<HTMLElement>("[data-header-reveal]");
+      if (!els.length) return;
+      gsap.from(els, {
+        opacity: 0,
+        y: -14,
+        duration: 0.75,
+        ease: "power2.out",
+        stagger: 0.12,
+        delay: 0.2,
+      });
+    }, root);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <header className="pointer-events-none fixed top-0 z-2000 flex w-full items-center justify-between px-6 py-4 md:px-10">
+    <header
+      ref={headerRef}
+      className="pointer-events-none fixed top-0 z-2000 flex w-full items-center justify-between px-6 py-4 md:px-10"
+    >
       <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/75 via-black/35 to-transparent" />
-      <div className="pointer-events-auto">
+      <div className="pointer-events-auto" data-header-reveal>
         <Link
           href="/"
           className="inline-flex items-center text-white outline-offset-4 transition-opacity"
@@ -97,7 +122,7 @@ export default function Header() {
         </Link>
       </div>
 
-      <div className="pointer-events-auto text-right text-[0.58rem] tracking-[0.12em]">
+      <div className="pointer-events-auto text-right text-[0.58rem] tracking-[0.12em]" data-header-reveal>
         <span ref={locTextRef} className="block font-normal text-white/35">
           {current.city}
         </span>
