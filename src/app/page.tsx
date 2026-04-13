@@ -1,10 +1,29 @@
-import HomeBanner from "@/widgets/HomeBanner";
-// import HeroLines from "@/components/HeroLines";
+import dynamic from "next/dynamic";
 import HomeLines from "@/widgets/HomeLines";
+import HomeBuildCreateCommunicate from "@/widgets/HomeBuildCreateCommunicate";
 import HomeService from "@/widgets/HomeService";
-import HomeApproach from "@/widgets/HomeApproach";
 import HomeGallery from "@/widgets/HomeGallery";
 import HomeBlog from "@/widgets/HomeBlog";
+
+const HomeBanner = dynamic(() => import("@/widgets/HomeBanner"), {
+  loading: () => (
+    <section
+      className="font-home-banner relative flex h-screen flex-row items-end justify-start bg-black"
+      aria-label="Hero"
+      aria-busy="true"
+    />
+  ),
+});
+
+const HomeCreate = dynamic(() => import("@/widgets/HomeCreate"), {
+  loading: () => (
+    <section
+      className="relative min-h-screen h-screen bg-[#080808]"
+      aria-label="Create"
+      aria-busy="true"
+    />
+  ),
+});
 
 export default function Home() {
   return (
@@ -13,9 +32,11 @@ export default function Home() {
 
       <HomeLines />
 
-      <HomeService />
+      <HomeCreate />
 
-      <HomeApproach />
+      <HomeBuildCreateCommunicate />
+
+      <HomeService />
 
       <HomeGallery />
 

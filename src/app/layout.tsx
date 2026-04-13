@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import FloatingNav from "@/components/FloatingNav";
-import LenisProvider from "@/components/LenisProvider";
+import LenisScroll from "@/components/LenisScroll";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { SITE_DESCRIPTION, SITE_NAME, getSiteUrl } from "@/lib/site";
@@ -92,22 +92,23 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} min-h-full antialiased`}
     >
       <body className="relative min-h-full">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
-        <LenisProvider />
-        <Header />
-        <div className="grid-overlay" aria-hidden />
-        <div className="dots-overlay" aria-hidden />
-        <div className="relative z-10 flex min-h-full flex-col">
-          {children}
-          <Footer />
-        </div>
-        <FloatingNav />
+        <LenisScroll>
+          <Header />
+          <div className="grid-overlay" aria-hidden />
+          <div className="dots-overlay" aria-hidden />
+          <div className="relative z-10 flex min-h-full flex-col">
+            {children}
+            <Footer />
+          </div>
+          <FloatingNav />
+        </LenisScroll>
       </body>
     </html>
   );

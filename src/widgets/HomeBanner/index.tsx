@@ -2,7 +2,17 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import * as THREE from "three";
+import {
+  GLSL1,
+  Mesh,
+  OrthographicCamera,
+  PlaneGeometry,
+  Scene,
+  ShaderMaterial,
+  Texture,
+  Vector2,
+  WebGLRenderer,
+} from "three";
 import { Button } from "@/components/Button";
 import "./HomeBanner.extras.scss";
 
@@ -141,22 +151,22 @@ export default function HomeBanner({ imageSrc = "/welcome.webp" }: HomeBannerPro
     const currentMouse = { x: 0.5, y: 0.5 };
     const targetMouse = { x: 0.5, y: 0.5 };
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    const scene = new Scene();
+    const camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    const renderer = new WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    const material = new THREE.ShaderMaterial({
-      glslVersion: THREE.GLSL1,
+    const material = new ShaderMaterial({
+      glslVersion: GLSL1,
       uniforms: {
         uTexture: { value: null },
         uResolution: {
-          value: new THREE.Vector2(container.clientWidth, container.clientHeight),
+          value: new Vector2(container.clientWidth, container.clientHeight),
         },
-        uTextureSize: { value: new THREE.Vector2(1, 1) },
-        uMouse: { value: new THREE.Vector2(0.5, 0.5) },
+        uTextureSize: { value: new Vector2(1, 1) },
+        uMouse: { value: new Vector2(0.5, 0.5) },
         uParallaxStrength: { value: config.parallaxStrength },
         uDistortionMultiplier: { value: config.distortionMultiplier },
         uGlassStrength: { value: config.glassStrength },
@@ -168,7 +178,7 @@ export default function HomeBanner({ imageSrc = "/welcome.webp" }: HomeBannerPro
       fragmentShader,
     });
 
-    const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
+    const mesh = new Mesh(new PlaneGeometry(2, 2), material);
     scene.add(mesh);
 
     const image = new Image();
@@ -176,7 +186,7 @@ export default function HomeBanner({ imageSrc = "/welcome.webp" }: HomeBannerPro
     image.crossOrigin = "anonymous";
     image.onload = () => {
       if (disposed) return;
-      const texture = new THREE.Texture(image);
+      const texture = new Texture(image);
       texture.needsUpdate = true;
       material.uniforms.uTexture.value = texture;
       material.uniforms.uTextureSize.value.set(image.naturalWidth, image.naturalHeight);
@@ -207,12 +217,15 @@ export default function HomeBanner({ imageSrc = "/welcome.webp" }: HomeBannerPro
 
     return () => {
       disposed = true;
+      image.onload = null;
+      image.src = "";
       cancelAnimationFrame(raf);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("resize", onResize);
 
-      const tex = material.uniforms.uTexture.value as THREE.Texture | null;
+      const tex = material.uniforms.uTexture.value as Texture | null;
       if (tex) tex.dispose();
+      scene.remove(mesh);
       material.dispose();
       mesh.geometry.dispose();
       renderer.dispose();

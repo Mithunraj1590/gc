@@ -209,7 +209,7 @@ export default function HomeLines({ className = "" }: HomeLinesProps) {
           </span>
         </div>
 
-        <div className="relative min-h-[200px] sm:min-h-[240px] md:min-h-[280px] lg:min-h-[360px] xl:min-h-[420px] 2xl:min-h-[280px]">
+        <div className="relative min-h-[200px] sm:min-h-[240px] md:min-h-[250px] lg:min-h-[260px] xl:min-h-[270px] 2xl:min-h-[280px]">
           <div className="absolute inset-x-0 top-0 flex w-full items-end">
             {Array.from({ length: 33 }).map((_, i) => (
               <div
@@ -263,12 +263,12 @@ export default function HomeLines({ className = "" }: HomeLinesProps) {
                   onMouseLeave={i === 10 || i === 26 ? undefined : onLineLeave}
                   className={
                     i === 4
-                      ? `inline-block h-[200px] sm:h-[240px] md:h-[280px] lg:h-[360px] xl:h-[420px] 2xl:h-[250px] ${lineWidthClass(i)} shrink-0 -rotate-[10deg] bg-white`
+                      ? `inline-block h-[200px] sm:h-[210px] md:h-[220px] lg:h-[230px] xl:h-[240px] 2xl:h-[250px] ${lineWidthClass(i)} shrink-0 -rotate-[10deg] bg-white`
                     : i === 10
-                        ? "inline-block h-[200px] sm:h-[240px] md:h-[280px] lg:h-[360px] xl:h-[420px] 2xl:h-[250px] w-[7px] shrink-0 origin-center bg-[#C8A96E] transition-transform duration-[500ms] ease-in"
+                        ? "inline-block h-[200px] sm:h-[210px] md:h-[220px] lg:h-[230px] xl:h-[240px] 2xl:h-[250px] w-[7px] shrink-0 origin-center bg-[#C8A96E] transition-transform duration-[500ms] ease-in"
                     : i === 26
-                        ? "inline-block h-[200px] sm:h-[240px] md:h-[280px] lg:h-[360px] xl:h-[420px] 2xl:h-[250px] w-[7px] shrink-0 origin-center bg-[#C8A96E] transition-transform duration-[500ms] ease-in"
-                        : `inline-block h-[200px] sm:h-[240px] md:h-[280px] lg:h-[360px] xl:h-[420px] 2xl:h-[250px] ${lineWidthClass(i)} shrink-0 bg-white`
+                        ? "inline-block h-[200px] sm:h-[210px] md:h-[220px] lg:h-[230px] xl:h-[240px] 2xl:h-[250px] w-[7px] shrink-0 origin-center bg-[#C8A96E] transition-transform duration-[500ms] ease-in"
+                        : `inline-block h-[200px] sm:h-[210px] md:h-[220px] lg:h-[230px] xl:h-[240px] 2xl:h-[250px] ${lineWidthClass(i)} shrink-0 bg-white`
                   }
                   style={
                     i === 10
@@ -294,7 +294,7 @@ export default function HomeLines({ className = "" }: HomeLinesProps) {
           </div>
         </div>
 
-        <div className="relative min-h-[200px] sm:min-h-[240px] md:min-h-[280px] lg:min-h-[360px] xl:min-h-[420px] 2xl:min-h-[250px]">
+        <div className="relative min-h-[200px] sm:min-h-[240px] md:min-h-[250px] lg:min-h-[260px] xl:min-h-[270px] 2xl:min-h-[280px]">
           <div className="absolute inset-x-0 top-0 flex w-full items-start">
             {Array.from({ length: 33 }).map((_, i) => (
               <div
@@ -330,10 +330,10 @@ export default function HomeLines({ className = "" }: HomeLinesProps) {
                   onMouseLeave={i === 6 ? undefined : onLineLeave}
                   className={
                     i === 6
-                      ? "inline-block h-[200px] sm:h-[240px] md:h-[280px] lg:h-[360px] xl:h-[420px] 2xl:h-[250px] w-[7px] shrink-0 origin-center bg-[#C8A96E] transition-transform duration-[500ms] ease-in"
+                      ? "inline-block h-[200px] sm:h-[210px] md:h-[220px] lg:h-[230px] xl:h-[240px] 2xl:h-[250px] w-[7px] shrink-0 origin-center bg-[#C8A96E] transition-transform duration-[500ms] ease-in"
                     : i === 26
-                      ? `inline-block h-[200px] sm:h-[240px] md:h-[280px] lg:h-[360px] xl:h-[420px] 2xl:h-[250px] ${secondRowWidthClass(i)} shrink-0 rotate-[10deg] bg-white`
-                      : `inline-block h-[200px] sm:h-[240px] md:h-[280px] lg:h-[360px] xl:h-[420px] 2xl:h-[250px] ${secondRowWidthClass(i)} shrink-0 bg-white`
+                      ? `inline-block h-[200px] sm:h-[210px] md:h-[220px] lg:h-[230px] xl:h-[240px] 2xl:h-[250px] ${secondRowWidthClass(i)} shrink-0 rotate-[10deg] bg-white`
+                      : `inline-block h-[200px] sm:h-[210px] md:h-[220px] lg:h-[230px] xl:h-[240px] 2xl:h-[250px] ${secondRowWidthClass(i)} shrink-0 bg-white`
                   }
                   style={
                     i === 6

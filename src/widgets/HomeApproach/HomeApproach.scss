@@ -156,27 +156,34 @@
 }
 
 /* Clips the sequence only; container stays overflow:visible so full-bleed gradient works */
-.home-approach .engine-canvas-wrap {
+.home-approach .engine-sequence-wrap {
   position: absolute;
   inset: 0;
   overflow: hidden;
   z-index: 0;
 }
 
-.home-approach .engine-canvas {
-  position: relative;
+.home-approach .engine-sequence-bg,
+.home-approach .engine-sequence-frame {
+  position: absolute;
+  inset: 0;
   z-index: 0;
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.home-approach .engine-sequence-frame {
+  z-index: 1;
   opacity: 0.92;
 }
 
 /* Blur top / right / left / bottom bands only; rectangular center stays sharp (SVG frame mask) */
-.home-approach .engine-canvas-corner-blur {
+.home-approach .engine-sequence-corner-blur {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
   background: rgba(0, 0, 0, 0.02);
   backdrop-filter: blur(14px);
@@ -190,7 +197,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-approach .engine-canvas-corner-blur {
+  .home-approach .engine-sequence-corner-blur {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     display: none;
