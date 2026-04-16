@@ -2,8 +2,11 @@ import dynamic from "next/dynamic";
 import HomeLines from "@/widgets/HomeLines";
 import HomeBuildCreateCommunicate from "@/widgets/HomeBuildCreateCommunicate";
 import HomeService from "@/widgets/HomeService";
+import HomeStackCards from "@/widgets/HomeStackCards";
+import HomePixelPromo from "@/widgets/HomePixelPromo";
 import HomeGallery from "@/widgets/HomeGallery";
 import HomeBlog from "@/widgets/HomeBlog";
+import ImpactWidget from "@/widgets/ImpactWidget";
 
 const HomeBanner = dynamic(() => import("@/widgets/HomeBanner"), {
   loading: () => (
@@ -32,11 +35,17 @@ export default function Home() {
 
       <HomeLines />
 
+      <ImpactWidget />
+
       <HomeCreate />
 
       <HomeBuildCreateCommunicate />
 
       <HomeService />
+
+      <HomeStackCards />
+
+      <HomePixelPromo />
 
       <HomeGallery />
 
