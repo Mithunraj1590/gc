@@ -37,13 +37,13 @@ export default function Home() {
 
       <ImpactWidget />
 
-      <HomeCreate />
+      {/* <HomeCreate /> */}
 
       <HomeBuildCreateCommunicate />
 
       <HomeService />
 
-      <HomeStackCards />
+      {/* <HomeStackCards /> */}
 
       <HomePixelPromo />
 

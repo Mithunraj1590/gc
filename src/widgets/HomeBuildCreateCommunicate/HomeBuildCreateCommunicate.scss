@@ -76,10 +76,10 @@
   margin-top: clamp(1rem, 3vw, 2rem);
 }
 
-.home-bcc__canvas {
+.home-bcc__svg {
   display: block;
   width: 100%;
-  max-width: min(100%, 320px);
+  max-width: min(100%, 260px);
   height: auto;
   aspect-ratio: 1;
 }
