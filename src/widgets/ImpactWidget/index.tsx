@@ -27,9 +27,9 @@ export default function ImpactWidget() {
         // Sprite Cache for performance
         let activeSprite: HTMLCanvasElement | null = null;
         let inactiveSprite: HTMLCanvasElement | null = null;
-        const SPRITE_SIZE = 16;
+        const SPRITE_SIZE = 20;
 
-        const spacing = 16;
+        const spacing = 22;
         const dots: any[] = [];
 
         let mouse = { x: -9999, y: -9999, smoothedX: 0, smoothedY: 0 };
@@ -123,7 +123,7 @@ export default function ImpactWidget() {
                 const d2 = dx * dx + shiftedDy * shiftedDy;
                 if (d2 > R2) return false;
 
-                const eX = R * 0.35, eY = -R * 0.25 + R * 0.12, eOR = R * 0.22;
+                const eX = R * 0.35, eY = -R * 0.25 + R * 0.12, eOR = R * 0.16;
                 const eOR2 = eOR * eOR;
                 const maxEyeMove = R * 0.15;
                 let eOffsetX = eyeTrackX * maxEyeMove;
@@ -142,14 +142,14 @@ export default function ImpactWidget() {
                 if (dEyeL2 < eOR2) {
                     if (!eyeLOpen) return Math.abs(dy - eY) < R * 0.03;
                     const dEyeInnerL = (dx + eX - eOffsetX) * (dx + eX - eOffsetX) + (dy - eY - eOffsetY) * (dy - eY - eOffsetY);
-                    return dEyeInnerL < (R * 0.08) * (R * 0.08);
+                    return dEyeInnerL < (R * 0.06) * (R * 0.06);
                 }
 
                 const dEyeR2 = (dx - eX) * (dx - eX) + (dy - eY) * (dy - eY);
                 if (dEyeR2 < eOR2) {
                     if (!eyeROpen) return Math.abs(dy - eY) < R * 0.03;
                     const dEyeInnerR = (dx - eX - eOffsetX) * (dx - eX - eOffsetX) + (dy - eY - eOffsetY) * (dy - eY - eOffsetY);
-                    return dEyeInnerR < (R * 0.08) * (R * 0.08);
+                    return dEyeInnerR < (R * 0.06) * (R * 0.06);
                 }
 
                 // Default to a smiling face!
@@ -544,10 +544,10 @@ export default function ImpactWidget() {
 
                 // Background mouse repulsion disabled as per request
 
-                const nx = (d.x - cx) / (W / 2), ny = (d.y - cy) / (H / 2), r2 = nx * nx + ny * ny;
+                const nx = (d.x - cx) / (W / 2), ny = (d.y - cy) / (H / 2);
                 if (ar > 0.3) {
-                    const drawX = cx + nx * W / 2 * (1.0 + r2 * 0.05);
-                    const drawY = cy + ny * H / 2 * (1.0 + r2 * 0.05);
+                    const drawX = cx + nx * W / 2;
+                    const drawY = cy + ny * H / 2;
 
                     const sprite = isS ? activeSprite : inactiveSprite;
                     if (sprite) {
