@@ -2,6 +2,7 @@
 
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useRef } from "react";
+import "./HomeBlog.scss";
 
 type HomeBlogProps = Readonly<{
   className?: string;
@@ -54,65 +55,57 @@ export default function HomeBlog({ className = "" }: HomeBlogProps) {
     <section
       ref={sectionRef}
       id="blog"
-      className={`py-16 md:py-20 ${className}`.trim()}
+      className={`home-blog py-[100px] ${className}`.trim()}
       aria-label="Blog"
     >
       <div className="container">
         <div
           data-reveal
-          className="mb-10 flex items-center gap-4 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/55 before:block before:h-px before:w-24 before:bg-white/45 md:before:w-36 lg:before:w-48"
+          className="mb-10 flex items-center gap-4 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/55 before:block before:h-px before:w-24 before:bg-white/45 md:before:w-36 lg:before:w-24"
         >
           Insights
         </div>
 
-        <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <h2 data-reveal className="h2 max-w-[760px]">
-            Signal-driven thinking for modern growth teams.
+        <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <h2 data-reveal className="max-w-[760px] font-home-banner-heading text-[2.4rem] font-bold leading-[1.1] text-white">
+            Signal-driven thinking for <span className="text-[#C8A96E]">modern growth teams.</span>
           </h2>
           <a
             data-reveal
             href="#"
             className="inline-flex w-fit items-center gap-2 border-b border-white/25 pb-1 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-white/70 transition-colors hover:border-[#C8A96E] hover:text-[#C8A96E]"
           >
-            View all posts
+            Explore Data Repository
           </a>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-3">
+        <div data-reveal className="home-blog__grid">
           {posts.map((post) => (
-            <article
-              key={post.title}
-              data-reveal
-              className="group relative overflow-hidden border border-white/10 bg-white/2 transition-colors duration-300 hover:border-[#C8A96E]/45 hover:bg-white/4"
-            >
-              <div className="relative h-48 overflow-hidden border-b border-white/10">
+            <article key={post.title} className="home-blog__card">
+              <div className="home-blog__image-box">
                 <img
                   src={post.image}
                   alt={post.title}
-                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="h-full w-full object-cover"
                   loading="lazy"
                 />
-                <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/45 via-transparent to-transparent" />
               </div>
 
-              <div className="p-6">
-              <div className="mb-5 flex items-center justify-between text-[0.62rem] uppercase tracking-[0.14em] text-white/50">
-                <span>{post.category}</span>
-                <span>{post.date}</span>
-              </div>
+              <div className="home-blog__details">
+                <div className="home-blog__top-meta">
+                  <span>{post.category}</span>
+                  <span>{post.date}</span>
+                </div>
 
-              <h3 className="mb-4 text-[1.05rem] font-semibold leading-snug text-white transition-colors duration-300 group-hover:text-[#C8A96E]">
-                {post.title}
-              </h3>
+                <h3 className="home-blog__title">{post.title}</h3>
+                <p className="home-blog__excerpt">{post.excerpt}</p>
 
-              <p className="mb-6 text-sm leading-relaxed text-white/65">{post.excerpt}</p>
-
-              <div className="flex items-center justify-between border-t border-white/10 pt-4 text-[0.68rem] uppercase tracking-[0.12em] text-white/50">
-                <span>{post.readTime}</span>
-                <a href="#" className="transition-colors hover:text-[#C8A96E]">
-                  Read more
-                </a>
-              </div>
+                <div className="home-blog__footer">
+                  <span>{post.readTime}</span>
+                  <a href="#" className="home-blog__read-more">
+                    Analyze Full File
+                  </a>
+                </div>
               </div>
             </article>
           ))}

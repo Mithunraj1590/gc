@@ -13,7 +13,10 @@ import {
   type ReactNode,
 } from "react";
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.normalizeScroll(true);
+}
 
 type LenisScrollToOptions = NonNullable<Parameters<Lenis["scrollTo"]>[1]>;
 

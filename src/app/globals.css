@@ -31,7 +31,7 @@
   --line-height-h6: 1.4;
 }
 
-@media (width >= 576px) {
+@media (width >=576px) {
   :root {
     --font-size-h1: 1.875rem;
     --font-size-h2: 1.625rem;
@@ -42,7 +42,7 @@
   }
 }
 
-@media (width >= 768px) {
+@media (width >=768px) {
   :root {
     --font-size-h1: 2rem;
     --line-height-h1: 1.21;
@@ -54,7 +54,7 @@
   }
 }
 
-@media (width >= 992px) {
+@media (width >=992px) {
   :root {
     --font-size-h1: 2.125rem;
     --line-height-h1: 1.2;
@@ -66,7 +66,7 @@
   }
 }
 
-@media (width >= 1200px) {
+@media (width >=1200px) {
   :root {
     --font-size-h1: 2.25rem;
     --font-size-h2: 2rem;
@@ -77,7 +77,7 @@
   }
 }
 
-@media (width >= 1400px) {
+@media (width >=1400px) {
   :root {
     --font-size-h1: 4.3rem;
     --font-size-h2: 2.125rem;
@@ -88,7 +88,7 @@
   }
 }
 
-@media (width >= 1600px) {
+@media (width >=1600px) {
   :root {
     --font-size-h1: 4.3rem;
     --font-size-h2: 3rem;
@@ -114,15 +114,10 @@
   --breakpoint-2xl: 1600px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+
 
 body {
-  background-color: #000;
+  background-color: #0a0a0a;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -131,12 +126,14 @@ body {
   .font-home-banner {
     font-family: var(--font-geist-sans), var(--font-inter), system-ui, sans-serif;
   }
+
   .font-home-banner-heading {
     font-family: var(--font-inter), system-ui, sans-serif;
   }
 }
 
 @layer base {
+
   /* Heading scale: semantic tags + matching `.h1` … `.h6` classes */
   h1,
   h2,
@@ -152,31 +149,37 @@ body {
   .h6 {
     font-family: var(--font-geist-sans), var(--font-inter), system-ui, sans-serif;
   }
+
   h1,
   .h1 {
     font-size: var(--font-size-h1);
     line-height: var(--line-height-h1);
   }
+
   h2,
   .h2 {
     font-size: var(--font-size-h2);
     line-height: var(--line-height-h2);
   }
+
   h3,
   .h3 {
     font-size: var(--font-size-h3);
     line-height: var(--line-height-h3);
   }
+
   h4,
   .h4 {
     font-size: var(--font-size-h4);
     line-height: var(--line-height-h4);
   }
+
   h5,
   .h5 {
     font-size: var(--font-size-h5);
     line-height: var(--line-height-h5);
   }
+
   h6,
   .h6 {
     font-size: var(--font-size-h6);
@@ -193,40 +196,39 @@ body {
     padding-inline: 15px;
   }
 
-  @media (width >= 576px) {
+  @media (width >=576px) {
     .container {
       max-width: var(--width-container-sm);
     }
   }
 
-  @media (width >= 768px) {
+  @media (width >=768px) {
     .container {
       max-width: var(--width-container-md);
     }
   }
 
-  @media (width >= 992px) {
+  @media (width >=992px) {
     .container {
       max-width: var(--width-container-lg);
     }
   }
 
-  @media (width >= 1200px) {
+  @media (width >=1200px) {
     .container {
       max-width: var(--width-container-xl);
     }
   }
 
-  @media (width >= 1400px) {
+  @media (width >=1400px) {
     .container {
       max-width: var(--width-container-xxl);
     }
   }
 
-  @media (width >= 1600px) {
+  @media (width >=1600px) {
     .container {
       max-width: var(--width-container-2xl);
     }
   }
 }
-

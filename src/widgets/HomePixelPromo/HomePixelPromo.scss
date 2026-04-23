@@ -1,35 +1,35 @@
 .home-pixel-promo {
-  background: #000;
+  position: relative;
   width: 100%;
-  padding: clamp(2.5rem, 5vw, 5rem) 0;
+
+  background: #000;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    pointer-events: none;
+    z-index: 1;
+  }
 }
 
 .home-pixel-promo__panel {
   position: relative;
-  width: min(1400px, 100%);
-  margin-inline: auto;
-  min-height: clamp(320px, 42vw, 560px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: #040404;
+  width: 100%;
+  min-height: clamp(520px, 50vw, 720px);
+  background: transparent;
   overflow: hidden;
+  z-index: 2;
 }
 
 .home-pixel-promo__cluster {
   position: absolute;
-  z-index: 1;
-  width: 360px;
-  height: 220px;
+  inset: 0;
   pointer-events: none;
-}
-
-.home-pixel-promo__cluster--tl {
-  top: 0;
-  left: 0;
-}
-
-.home-pixel-promo__cluster--br {
-  right: 0;
-  bottom: 0;
+  z-index: 1;
 }
 
 .home-pixel-promo__pixel {
@@ -38,68 +38,95 @@
   top: var(--y);
   width: var(--size);
   height: var(--size);
-  background: #e4e4e4;
-  opacity: 0.3;
+  background: #fff;
+}
+
+.home-pixel-promo__cluster--br {
+  .home-pixel-promo__pixel {
+    left: auto;
+    top: auto;
+    right: calc(var(--x) * -1);
+    bottom: calc(var(--y) * -1);
+  }
 }
 
 .home-pixel-promo__content {
   position: relative;
-  z-index: 2;
+  z-index: 5;
   min-height: inherit;
-  padding: clamp(2rem, 6vw, 4.5rem) clamp(1.2rem, 4vw, 3.2rem);
+  padding: clamp(3rem, 10vw, 8rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(1.75rem, 5vw, 3.25rem);
+  align-items: center;
+  text-align: center;
+  pointer-events: none;
 }
 
 .home-pixel-promo__headline {
   display: flex;
   align-items: flex-end;
-  gap: clamp(0.75rem, 2vw, 1.35rem);
-  flex-wrap: wrap;
+  gap: clamp(1rem, 3vw, 2rem);
+  margin-bottom: 2rem;
 }
 
 .home-pixel-promo__headline h2 {
   margin: 0;
-  font-family: var(--font-inter), var(--font-geist-sans), system-ui, sans-serif;
-  font-weight: 500;
-  line-height: 0.88;
-  letter-spacing: -0.03em;
-  font-size: clamp(2.4rem, 10vw, 7.2rem);
-  color: #f3f3f3;
+  font-family: var(--font-inter), var(--font-geist-sans), sans-serif;
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+  font-size: clamp(4rem, 15vw, 12rem);
+  color: #fff;
 }
 
 .home-pixel-promo__headline p {
-  margin: 0 0 0.35em;
-  font-family: var(--font-inter), var(--font-geist-sans), system-ui, sans-serif;
-  line-height: 0.95;
-  letter-spacing: -0.02em;
-  font-size: clamp(1.2rem, 3.5vw, 3.7rem);
-  font-weight: 600;
-  color: #f3f3f3;
+  margin: 0 0 0.5em;
+  font-family: var(--font-inter), var(--font-geist-sans), sans-serif;
+  line-height: 1.1;
+  font-size: clamp(1.2rem, 3.5vw, 3.5rem);
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.home-pixel-promo__cta {
+  position: absolute;
+  bottom: clamp(2rem, 6vw, 6rem);
+  left: clamp(2rem, 8vw, 8rem);
+  pointer-events: auto;
 }
 
 .home-pixel-promo__button {
-  min-width: 170px;
-  border-color: rgba(255, 255, 255, 0.95);
-  color: #f3f3f3;
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid #fff;
+  padding: 1.1rem 3rem;
+  font-family: var(--font-inter), var(--font-geist-sans), sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background: #fff;
+    color: #000;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+  }
 }
 
-@media (width < 768px) {
-  .home-pixel-promo__cluster {
-    width: 250px;
-    height: 160px;
-  }
 
-  .home-pixel-promo__content {
+@media (max-width: 1024px) {
+  .home-pixel-promo__headline {
+    flex-direction: column;
     align-items: flex-start;
-    justify-content: flex-end;
+    gap: 1rem;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .home-pixel-promo__pixel {
-    opacity: 0.62;
+@media (max-width: 768px) {
+  .home-pixel-promo__content {
+    padding: 4rem 1.5rem;
   }
 }

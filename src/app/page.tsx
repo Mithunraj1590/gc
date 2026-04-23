@@ -7,6 +7,7 @@ import HomePixelPromo from "@/widgets/HomePixelPromo";
 import HomeGallery from "@/widgets/HomeGallery";
 import HomeBlog from "@/widgets/HomeBlog";
 import ImpactWidget from "@/widgets/ImpactWidget";
+import CreativeIntelligenceCTA from "@/components/CreativeIntelligenceCTA";
 
 const HomeBanner = dynamic(() => import("@/widgets/HomeBanner"), {
   loading: () => (
@@ -33,7 +34,7 @@ export default function Home() {
     <>
       <HomeBanner />
 
-      <HomeLines />
+      {/* <HomeLines /> */}
 
       <ImpactWidget />
 
@@ -41,13 +42,14 @@ export default function Home() {
 
       <HomeBuildCreateCommunicate />
 
-      <HomeService />
+      {/* <HomeService /> */}
 
-      {/* <HomeStackCards /> */}
+      <HomeStackCards />
+      <CreativeIntelligenceCTA />
 
       <HomePixelPromo />
 
-      <HomeGallery />
+      {/* <HomeGallery /> */}
 
       <HomeBlog />
     </>

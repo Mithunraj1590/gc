@@ -27,9 +27,9 @@ export default function ImpactWidget() {
         // Sprite Cache for performance
         let activeSprite: HTMLCanvasElement | null = null;
         let inactiveSprite: HTMLCanvasElement | null = null;
-        const SPRITE_SIZE = 16; 
+        const SPRITE_SIZE = 16;
 
-        const spacing = 12;
+        const spacing = 16;
         const dots: any[] = [];
 
         let mouse = { x: -9999, y: -9999, smoothedX: 0, smoothedY: 0 };
@@ -68,24 +68,13 @@ export default function ImpactWidget() {
             const center = size / 2;
             const r = (size / 2) * 0.8;
 
-            // Active Chrome Sprite
+            // Active Sprite (Pure White)
             activeSprite = document.createElement('canvas');
             activeSprite.width = size;
             activeSprite.height = size;
             const aCtx = activeSprite.getContext('2d')!;
-            
-            const grad = aCtx.createRadialGradient(
-                center - r * 0.3, center - r * 0.3, r * 0.1,
-                center, center, r
-            );
-            grad.addColorStop(0, '#ffffff');
-            grad.addColorStop(0.2, '#e0e0e0');
-            grad.addColorStop(0.5, '#a0a0a0');
-            grad.addColorStop(1, '#404040');
-            
-            aCtx.shadowColor = 'rgba(255,255,255,0.3)';
-            aCtx.shadowBlur = r * 0.5;
-            aCtx.fillStyle = grad;
+
+            aCtx.fillStyle = '#ffffff';
             aCtx.beginPath();
             aCtx.arc(center, center, r * 0.85, 0, Math.PI * 2);
             aCtx.fill();
@@ -120,7 +109,7 @@ export default function ImpactWidget() {
 
         function isInsideShape(shapeIndex: number, dx: number, dy: number, R: number, time: number) {
             const s = Math.round(shapeIndex);
-            if (s === 0) R *= 2.1; 
+            if (s === 0) R *= (isExpanded ? 1.2 : 2.6);
             if (s === 6) R *= 1.5;
             if (s === 7) R *= 1.4;
             if (s === 8) R *= 1.5;
@@ -461,7 +450,7 @@ export default function ImpactWidget() {
             ctx!.clearRect(0, 0, W, H);
             time += 0.015;
             const now = performance.now();
-            let cx = W / 2, cy = H / 2;
+            let cx = W / 2, cy = H / 2 + (isExpanded ? 0 : 50);
 
             if (scrollFraction < 0.02) {
                 idleAnimIndex = 0;
@@ -500,7 +489,7 @@ export default function ImpactWidget() {
 
             const shapeDist = Math.abs(floatShapeIndex - targetShape);
             const transitionScale = 1.0 - (shapeDist * 0.8);
-            const initialScaleBoost = (targetShape === 0 && !isExpanded) ? 1.5 : 1.0;
+            const initialScaleBoost = (targetShape === 0 && !isExpanded) ? 1.8 : 1.0;
             const baseR = (Math.min(W, H) * 0.35 * initialScaleBoost) * Math.max(0.1, transitionScale);
 
             const twistDir = (Math.floor(floatShapeIndex) % 2 === 0) ? 1 : -1;
@@ -513,10 +502,7 @@ export default function ImpactWidget() {
                 eyeTrackY += (Math.max(-1, Math.min(1, eDistY)) - eyeTrackY) * 0.1;
             }
 
-            rot.targetX = scrollFraction < 0.02 ? 0 : (mouse.x - cx) / W * 0.4;
-            rot.targetY = scrollFraction < 0.02 ? 0 : (mouse.y - cy) / H * 0.4;
-            rot.x += (rot.targetX - rot.x) * 0.05;
-            rot.y += (rot.targetY - rot.y) * 0.05;
+            // rot.targetX, rot.targetY, rot.x, and rot.y are disabled as per request
 
             const dotCount = dots.length;
             for (let i = 0; i < dotCount; i++) {
@@ -531,9 +517,9 @@ export default function ImpactWidget() {
 
                 if (isInsideShape(targetShape, rdx, rdy, baseR, time)) {
                     isS = true;
-                    tx = cx + rdx * Math.cos(rot.x) - rdy * Math.sin(rot.y) * 0.4;
-                    ty = cy + rdy * Math.cos(rot.y) + rdx * Math.sin(rot.x) * 0.4;
-                    ts = Math.min(3.5, 2.5 * transitionScale);
+                    tx = cx + rdx;
+                    ty = cy + rdy;
+                    ts = Math.min(4.5, 3.5 * transitionScale);
                 }
 
                 if (swirlStrength > 0.01) {
@@ -550,17 +536,13 @@ export default function ImpactWidget() {
                 d.y += (ty - d.y) * (isS ? 0.3 : 0.05);
 
                 const ar = ts + Math.sin(time * 2 + d.angleOffset) * 0.4;
-                
+
                 // Optimized mouse interaction (only check close dots)
                 const dx_m = mouse.x - d.x;
                 const dy_m = mouse.y - d.y;
                 const distM2 = dx_m * dx_m + dy_m * dy_m;
 
-                if (!isS && distM2 < 2025) { // 45^2
-                    const distM = Math.sqrt(distM2);
-                    d.x -= (dx_m) / (distM || 1) * ((45 - distM) / 45) * 2.5;
-                    d.y -= (dy_m) / (distM || 1) * ((45 - distM) / 45) * 2.5;
-                }
+                // Background mouse repulsion disabled as per request
 
                 const nx = (d.x - cx) / (W / 2), ny = (d.y - cy) / (H / 2), r2 = nx * nx + ny * ny;
                 if (ar > 0.3) {
@@ -569,8 +551,8 @@ export default function ImpactWidget() {
 
                     const sprite = isS ? activeSprite : inactiveSprite;
                     if (sprite) {
-                        const ss = ar * 2.4 * (isS ? 1.0 : 4.0); 
-                        ctx!.drawImage(sprite, drawX - ss/2, drawY - ss/2, ss, ss);
+                        const ss = ar * 2.4 * (isS ? 1.8 : 4.0);
+                        ctx!.drawImage(sprite, drawX - ss / 2, drawY - ss / 2, ss, ss);
                     }
                 }
             }
@@ -650,7 +632,13 @@ export default function ImpactWidget() {
                     </div>
                 ) : (
                     <div className={styles.scrollIndicators}>
-                        <button className={styles.expandButton} onClick={() => setIsExpanded(true)}>
+                        <button className={styles.expandButton} onClick={() => {
+                            setIsExpanded(true);
+                            // Give React time to update DOM before refreshing ScrollTrigger
+                            setTimeout(() => {
+                                ScrollTrigger.refresh();
+                            }, 50);
+                        }}>
                             Expand To Evolve
                         </button>
                     </div>

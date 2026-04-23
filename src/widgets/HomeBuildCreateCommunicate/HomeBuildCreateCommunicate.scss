@@ -21,16 +21,41 @@
   flex-direction: column;
   padding: clamp(1.25rem, 3vw, 2.25rem);
   min-height: 280px;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: radial-gradient(circle, currentColor 1.5px, transparent 1.5px);
+    background-size: 14px 14px;
+    // opacity: 0.8;
+  }
+
+  >* {
+    position: relative;
+    z-index: 1;
+  }
 }
 
 .home-bcc__panel--light {
   background: var(--bcc-light);
   color: var(--bcc-dark);
+
+  &::before {
+    opacity: 0.16;
+  }
 }
 
 .home-bcc__panel--dark {
   background: var(--bcc-dark);
   color: #fff;
+
+  &::before {
+    opacity: 0.05;
+  }
 }
 
 .home-bcc__head {
