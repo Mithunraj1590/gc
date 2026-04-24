@@ -40,7 +40,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 1.5rem 4rem;
-  height: clamp(80px, 12vh, 120px);
+  height: var(--header-height, 80px);
   min-height: 80px;
   flex-shrink: 0;
   // Diagonal cut
@@ -108,6 +108,7 @@
   display: flex;
   flex-direction: column;
   padding: 2rem 4rem;
+  padding-bottom: calc(var(--stack-offset, 80px) * var(--total-cards, 3));
   position: relative;
 
   // Dot grid background

@@ -57,6 +57,9 @@ export default function HomeStackCards({ className = "" }: HomeStackCardsProps) 
 
     const cards = Array.from(container.querySelectorAll<HTMLElement>(".stack-card"));
 
+    // Consistent stack offset and header height
+    const hH = Math.min(120, Math.max(90, window.innerHeight * 0.1));
+
     const ctx = gsap.context(() => {
       const mainTl = gsap.timeline({
         scrollTrigger: {
@@ -75,7 +78,6 @@ export default function HomeStackCards({ className = "" }: HomeStackCardsProps) 
       cards.forEach((card, i) => {
         if (i === 0) return;
 
-        const hH = Math.max(80, window.innerHeight * 0.12);
         const startY = window.innerHeight - ((cards.length - i) * hH);
 
         mainTl.fromTo(card,
@@ -93,11 +95,19 @@ export default function HomeStackCards({ className = "" }: HomeStackCardsProps) 
     return () => ctx.revert();
   }, []);
 
+  const stackOffset = 80; // Default fallback for CSS
+  const hH = typeof window !== 'undefined' ? Math.min(120, Math.max(80, window.innerHeight * 0.01)) : 80;
+
   return (
     <section
       ref={sectionRef}
       className={`home-stack-cards ${className}`.trim()}
       aria-label="Stacked activation cards"
+      style={{
+        "--header-height": `${hH}px`,
+        "--stack-offset": `${hH}px`,
+        "--total-cards": STACK_ITEMS.length,
+      } as React.CSSProperties}
     >
       <div className="home-stack-cards__container" ref={containerRef}>
         {STACK_ITEMS.map((item, i) => (

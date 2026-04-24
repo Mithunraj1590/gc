@@ -22,6 +22,8 @@
   padding: clamp(1.25rem, 3vw, 2.25rem);
   min-height: 280px;
   overflow: hidden;
+  border-radius: 20px;
+  overflow: hidden;
 
   &::before {
     content: "";
