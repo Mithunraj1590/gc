@@ -65,10 +65,10 @@ export default function HomeStackCards({ className = "" }: HomeStackCardsProps) 
         scrollTrigger: {
           trigger: root,
           start: "top top",
-          end: `+=${cards.length * 100}%`,
+          end: `+=${cards.length * 120}%`,
           pin: true,
           pinSpacing: true,
-          scrub: 1,
+          scrub: 1.5,
           anticipatePin: 1,
           refreshPriority: 1,
           invalidateOnRefresh: true,
@@ -86,7 +86,7 @@ export default function HomeStackCards({ className = "" }: HomeStackCardsProps) 
             y: i * hH,
             yPercent: 0,
             duration: 1,
-            ease: "power2.inOut"
+            ease: "power1.inOut"
           }
         );
       });

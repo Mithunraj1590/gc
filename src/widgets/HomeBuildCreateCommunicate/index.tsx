@@ -35,7 +35,7 @@ export default function HomeBuildCreateCommunicate({ className = "" }: HomeBuild
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: svg,
-          start: "top 85%",
+          start: "top bottom",
           toggleActions: "play none none none"
         }
       });
