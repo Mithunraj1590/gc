@@ -5,18 +5,18 @@ const baseClasses =
   "font-home-banner-heading inline-flex cursor-pointer items-center justify-center font-semibold uppercase transition-all duration-[250ms] ease-[cubic-bezier(0.23_1_0.32_1)] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-45";
 
 const variants = {
-  /** Solid: foreground fill; hover → transparent bg, white label */
+  /** Solid: white bg, black text; hover → transparent bg, white label */
   primary:
-    "border border-white bg-[var(--foreground)] text-[var(--background)] hover:bg-transparent hover:border-white hover:text-white active:bg-transparent active:text-white/90",
-  /** Bordered transparent; hover → white fill, black label */
+    "border border-white bg-white text-black hover:bg-transparent hover:text-white active:bg-transparent active:opacity-80",
+  /** Bordered white; hover → white fill, black label */
   secondary:
-    "border border-white bg-transparent text-[var(--foreground)] hover:border-white hover:bg-white hover:text-black active:bg-neutral-200 active:text-black active:border-white",
-  /** Strong border; hover matches bordered style (white fill, black text) */
+    "border border-white bg-transparent text-white hover:bg-white hover:text-black active:bg-neutral-200",
+  /** Strong border; hover matches bordered style */
   outline:
-    "border-2 border-white bg-transparent text-[var(--foreground)] hover:border-white hover:bg-white hover:text-black active:bg-neutral-200 active:text-black active:border-white",
+    "border-2 border-white bg-transparent text-white hover:bg-white hover:text-black active:bg-neutral-200",
   /** Text-only with subtle hover surface */
   ghost:
-    "border border-transparent bg-transparent text-[var(--foreground)] hover:bg-[color-mix(in_srgb,var(--foreground)_9%,transparent)] active:bg-[color-mix(in_srgb,var(--foreground)_14%,transparent)]",
+    "border border-transparent bg-transparent text-white hover:bg-white/5 active:bg-white/10",
 } as const;
 
 const sizes = {

@@ -158,7 +158,7 @@ export default function HomeService({ className = "" }: HomeServiceProps) {
             <h2 className="mb-5 font-home-banner-heading text-[2.5rem] font-bold leading-[1.1] tracking-tight">
               We don&apos;t guess.
               <br />
-              <span className="text-[#C8A96E]">We calculate.</span>
+              <span className="opacity-80">We calculate.</span>
             </h2>
             <p className="mb-8 max-w-[340px] text-[0.9rem] leading-[1.65] text-white/60">
               Traditional agencies run campaigns. We operate like mission control - scanning, diagnosing, and
@@ -175,7 +175,7 @@ export default function HomeService({ className = "" }: HomeServiceProps) {
                   key={feature}
                   className="flex items-start gap-2.5 border-b border-white/10 py-2.5 text-[0.85rem] leading-normal text-white/70 first:border-t"
                 >
-                  <svg className="mt-[3px] h-[13px] w-[13px] shrink-0 text-[#C8A96E]" viewBox="0 0 16 16" fill="none">
+                  <svg className="mt-[3px] h-[13px] w-[13px] shrink-0 text-white/80" viewBox="0 0 16 16" fill="none">
                     <path
                       d="M3 8l3.5 3.5L13 4.5"
                       stroke="currentColor"
@@ -194,7 +194,7 @@ export default function HomeService({ className = "" }: HomeServiceProps) {
                 <a
                   key={link}
                   href="#"
-                  className="border-b border-white/20 pb-0.5 text-[0.7rem] font-semibold uppercase tracking-[0.06em] text-white/60 transition-colors duration-200 hover:border-[#C8A96E] hover:text-[#C8A96E]"
+                  className="border-b border-white/20 pb-0.5 text-[0.7rem] font-semibold uppercase tracking-[0.06em] text-white/60 transition-colors duration-200 hover:border-white hover:text-white"
                 >
                   {link}
                 </a>

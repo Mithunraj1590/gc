@@ -3,7 +3,7 @@
 import ParticleMorphDemo from "@/components/ParticleMorphDemo";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import gsap from "gsap";
-import { useLayoutEffect, useMemo, useRef, useSyncExternalStore } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import "./HomeCreate.scss";
 
 const PARTICLE_TEXT = ["Create"] as const;
@@ -77,12 +77,18 @@ export default function HomeCreate({
   lineOscAmplitudePx = 100,
   lineOscDurationSec = 3.2,
 }: HomeCreateProps) {
+  const [mounted, setMounted] = useState(false);
   const lines = useMemo(() => buildLineSpecs(lineCount), [lineCount]);
   const sectionRef = useRef<HTMLElement>(null);
   const linesShellRef = useRef<HTMLDivElement>(null);
   const linesTrackRef = useRef<HTMLDivElement>(null);
 
   useScrollReveal(sectionRef, { start: "top 78%", stagger: 0.2, y: 56, duration: 1 });
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
 
   const prefersReducedMotion = useSyncExternalStore(
     (onStoreChange) => {
@@ -181,7 +187,7 @@ export default function HomeCreate({
       </div>
 
       <div className="home-create__particle-wrap" data-reveal>
-        {prefersReducedMotion ? (
+        {mounted && prefersReducedMotion ? (
           <h2 className="home-create__title-visual">Create</h2>
         ) : (
           <ParticleMorphDemo
@@ -193,9 +199,10 @@ export default function HomeCreate({
       </div>
 
       <div className="home-create__inner" data-reveal>
-        {!prefersReducedMotion ? (
+        {mounted && !prefersReducedMotion ? (
           <h2 className="home-create__title-sr">Create</h2>
         ) : null}
+
         {subline ? <p className="home-create__sub">{subline}</p> : null}
       </div>
     </section>

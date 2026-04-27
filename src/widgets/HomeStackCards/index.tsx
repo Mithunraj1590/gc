@@ -2,7 +2,7 @@
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import "./HomeStackCards.scss";
 import Image from "next/image";
 
@@ -47,6 +47,7 @@ export type HomeStackCardsProps = Readonly<{
 export default function HomeStackCards({ className = "" }: HomeStackCardsProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [hH, setHH] = useState(80); // Stable fallback
 
   useLayoutEffect(() => {
     const root = sectionRef.current;
@@ -55,10 +56,10 @@ export default function HomeStackCards({ className = "" }: HomeStackCardsProps) 
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const cards = Array.from(container.querySelectorAll<HTMLElement>(".stack-card"));
+    const currentHH = Math.min(120, Math.max(90, window.innerHeight * 0.1));
+    setHH(currentHH);
 
-    // Consistent stack offset and header height
-    const hH = Math.min(120, Math.max(90, window.innerHeight * 0.1));
+    const cards = Array.from(container.querySelectorAll<HTMLElement>(".stack-card"));
 
     const ctx = gsap.context(() => {
       const mainTl = gsap.timeline({
@@ -69,8 +70,9 @@ export default function HomeStackCards({ className = "" }: HomeStackCardsProps) 
           pin: true,
           pinSpacing: true,
           scrub: 1.5,
-          anticipatePin: 1,
-          refreshPriority: 1,
+          anticipatePin: 0,
+          pinType: "transform",
+          refreshPriority: 10, // Higher priority for pins
           invalidateOnRefresh: true,
         }
       });
@@ -78,7 +80,7 @@ export default function HomeStackCards({ className = "" }: HomeStackCardsProps) 
       cards.forEach((card, i) => {
         if (i === 0) return;
 
-        const startY = window.innerHeight - ((cards.length - i) * hH);
+        const startY = window.innerHeight - ((cards.length - i) * (hH * 0.3));
 
         mainTl.fromTo(card,
           { y: startY, yPercent: 0 },
@@ -94,9 +96,6 @@ export default function HomeStackCards({ className = "" }: HomeStackCardsProps) 
 
     return () => ctx.revert();
   }, []);
-
-  const stackOffset = 80; // Default fallback for CSS
-  const hH = typeof window !== 'undefined' ? Math.min(120, Math.max(80, window.innerHeight * 0.01)) : 80;
 
   return (
     <section

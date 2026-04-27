@@ -16,6 +16,10 @@ import {
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
   ScrollTrigger.normalizeScroll(true);
+  ScrollTrigger.config({
+    ignoreMobileResize: true,
+    autoRefreshEvents: "visibilitychange,DOMContentLoaded,load" // Avoid frequent refreshes
+  });
 }
 
 type LenisScrollToOptions = NonNullable<Parameters<Lenis["scrollTo"]>[1]>;

@@ -24,7 +24,7 @@ export default function Footer() {
               We align brand, strategy, and execution into one system that moves with precision.
             </p>
             <div className="mt-6 inline-flex items-center gap-3 border border-white/15 bg-white/3 px-4 py-2 text-[0.65rem] uppercase tracking-[0.14em] text-white/65">
-              <span className="h-2 w-2 rounded-full bg-[#C8A96E]" />
+              <span className="h-2 w-2 rounded-full bg-white animate-pulse" />
               Available for new missions
             </div>
           </div>

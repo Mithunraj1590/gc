@@ -3,6 +3,7 @@ import HomeLines from "@/widgets/HomeLines";
 import HomeBuildCreateCommunicate from "@/widgets/HomeBuildCreateCommunicate";
 import HomeService from "@/widgets/HomeService";
 import HomeStackCards from "@/widgets/HomeStackCards";
+import HomeWork from "@/widgets/HomeWork";
 import HomePixelPromo from "@/widgets/HomePixelPromo";
 import HomeGallery from "@/widgets/HomeGallery";
 import HomeBlog from "@/widgets/HomeBlog";
@@ -51,6 +52,7 @@ export default function Home() {
 
       {/* <HomeGallery /> */}
 
+      <HomeWork />
       <HomeBlog />
     </>
   );

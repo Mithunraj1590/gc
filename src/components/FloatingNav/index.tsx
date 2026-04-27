@@ -162,8 +162,8 @@ export default function FloatingNav({ onAiToggle }: FloatingNavProps) {
                 href={item.href}
                 title={item.label}
                 onClick={() => setActiveItem(item.id)}
-                className={`font-home-banner-heading flex items-center gap-1 rounded-[2px] px-3 py-[0.35rem] text-[0.63rem] font-medium uppercase tracking-widest transition-opacity duration-200 ${
-                  isActive ? "opacity-100" : "opacity-[0.38] hover:opacity-100"
+                className={`font-home-banner-heading flex items-center gap-1 rounded-[2px] px-3 py-[0.35rem] text-[0.63rem] font-medium uppercase tracking-widest transition-all duration-200 ${
+                  isActive ? "bg-white/10 text-white opacity-100" : "text-white/40 opacity-100 hover:text-white"
                 }`}
               >
                 {index === 0 ? (
@@ -219,7 +219,7 @@ export default function FloatingNav({ onAiToggle }: FloatingNavProps) {
       >
         <div className="flex items-center justify-between border-b border-white/10 bg-[#080808] px-5 py-4">
           <div className="flex min-w-0 items-center gap-3">
-            <div className="h-8 w-8 shrink-0 animate-[spin_12s_linear_infinite] text-[#C8A96E]">
+            <div className="h-8 w-8 shrink-0 animate-[spin_12s_linear_infinite] text-white/80">
               <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
                 <circle cx="16" cy="16" r="13" stroke="currentColor" strokeWidth="1" strokeDasharray="3 2.5" />
                 <circle cx="16" cy="16" r="4" fill="currentColor" />
@@ -233,7 +233,7 @@ export default function FloatingNav({ onAiToggle }: FloatingNavProps) {
                 Creative Intelligence
               </div>
               <div className="truncate text-[0.65rem] text-white/45">
-                <span className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#C8A96E] align-middle ring-2 ring-[#C8A96E]/25" />
+                <span className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-white/60 align-middle ring-2 ring-white/10" />
                 Brand report engine · Ready
               </div>
             </div>

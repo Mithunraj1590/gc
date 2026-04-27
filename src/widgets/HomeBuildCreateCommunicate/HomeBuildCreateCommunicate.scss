@@ -21,9 +21,9 @@
   flex-direction: column;
   padding: clamp(1.25rem, 3vw, 2.25rem);
   min-height: 280px;
-  overflow: hidden;
+  overflow: visible; // Needed for 3D flip shadow/overflow
   border-radius: 20px;
-  overflow: hidden;
+  perspective: 1200px; // 3D space
 
   &::before {
     content: "";
@@ -109,6 +109,78 @@
   max-width: min(100%, 260px);
   height: auto;
   aspect-ratio: 1;
+}
+
+// 3D Flip Structure
+.home-bcc__card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.home-bcc__panel:hover .home-bcc__card-inner {
+  transform: rotateY(180deg);
+}
+
+.home-bcc__card-front,
+.home-bcc__card-back {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-bcc__card-front {
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+
+.home-bcc__card-back {
+  z-index: 1;
+  transform: rotateY(180deg);
+  background: inherit;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.home-bcc__desc {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.home-bcc__btn {
+  background: var(--bcc-dark);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+.home-bcc__btn--white {
+  background: #fff;
+  color: var(--bcc-dark);
 }
 
 @media (max-width: 720px) {

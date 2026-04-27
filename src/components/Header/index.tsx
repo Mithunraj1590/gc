@@ -26,15 +26,17 @@ const formatLocationTime = (zone: string, offset: number) => {
 };
 
 export default function Header() {
+  const [mounted, setMounted] = useState(false);
   const [currentLocationIndex, setCurrentLocationIndex] = useState(0);
   const headerRef = useRef<HTMLElement>(null);
   const locTextRef = useRef<HTMLSpanElement>(null);
   const locTimeRef = useRef<HTMLSpanElement>(null);
 
   const current = locations[currentLocationIndex];
-  const currentTime = formatLocationTime(current.zone, current.offset);
+  const currentTime = mounted ? formatLocationTime(current.zone, current.offset) : current.zone;
 
   useEffect(() => {
+    setMounted(true);
     const timer = window.setInterval(() => {
       const targets = [locTextRef.current, locTimeRef.current].filter(
         (node): node is HTMLElement => Boolean(node)

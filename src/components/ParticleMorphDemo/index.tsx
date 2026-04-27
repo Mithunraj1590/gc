@@ -6,7 +6,7 @@
  */
 
 import gsap from "gsap";
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import {
   AdditiveBlending,
   BufferAttribute,
@@ -107,6 +107,7 @@ export default function ParticleMorphDemo({
   const inputRef = useRef<HTMLInputElement>(null);
   const submitRef = useRef<HTMLButtonElement>(null);
 
+  const [mounted, setMounted] = useState(false);
   const autoMode = Boolean(autoCycleTexts?.length);
   const cycleKey = autoMode ? autoCycleTexts!.join("\0") : "";
 
@@ -121,6 +122,7 @@ export default function ParticleMorphDemo({
   );
 
   useEffect(() => {
+    setMounted(true);
     const container = containerRef.current;
     if (!container) return;
 
@@ -407,7 +409,7 @@ export default function ParticleMorphDemo({
       ref={rootRef}
       className={`particle-morph-demo${showBackgroundThrough ? " particle-morph-demo--through" : ""} ${className}`.trim()}
     >
-      {prefersReducedMotion ? (
+      {mounted && prefersReducedMotion ? (
         <div className="particle-morph-demo__fallback">
           Particle morph is disabled when &quot;Reduce motion&quot; is on.
         </div>

@@ -90,10 +90,10 @@
 
 .home-service__card--active,
 .home-service__card:hover {
-  border-color: #C8A96E;
+  border-color: #fff;
 
   .home-service__corner {
-    border-color: #C8A96E;
+    border-color: #fff;
     width: 14px;
     height: 14px;
   }
@@ -104,10 +104,6 @@
   background: #fff;
   color: #000;
   grid-column: span 1;
-
-  @media (min-width: 1024px) {
-    // Ensuring it always stays in the center of 3x3
-  }
 
   .home-service__radar {
     position: relative;
@@ -138,19 +134,9 @@
 }
 
 @keyframes radar-pulse {
-  0% {
-    transform: scale(0.5);
-    opacity: 0;
-  }
-
-  50% {
-    opacity: 0.5;
-  }
-
-  100% {
-    transform: scale(1.5);
-    opacity: 0;
-  }
+  0% { transform: scale(0.5); opacity: 0; }
+  50% { opacity: 0.5; }
+  100% { transform: scale(1.5); opacity: 0; }
 }
 
 .home-service__icon {
@@ -161,7 +147,7 @@
 
   .home-service__card--active &,
   .home-service__card:hover & {
-    color: #C8A96E;
+    color: #fff;
   }
 }
 

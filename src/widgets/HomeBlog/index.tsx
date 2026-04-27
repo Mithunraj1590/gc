@@ -68,12 +68,12 @@ export default function HomeBlog({ className = "" }: HomeBlogProps) {
 
         <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <h2 data-reveal className="max-w-[760px] font-home-banner-heading text-[2.4rem] font-bold leading-[1.1] text-white">
-            Signal-driven thinking for <span className="text-[#C8A96E]">modern growth teams.</span>
+            Signal-driven thinking for <span className="opacity-80">modern growth teams.</span>
           </h2>
           <a
             data-reveal
             href="#"
-            className="inline-flex w-fit items-center gap-2 border-b border-white/25 pb-1 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-white/70 transition-colors hover:border-[#C8A96E] hover:text-[#C8A96E]"
+            className="inline-flex w-fit items-center gap-2 border-b border-white/25 pb-1 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-white/70 transition-colors hover:border-white/60 hover:text-white"
           >
             Explore Data Repository
           </a>
