@@ -8,11 +8,10 @@
 .home-stack-cards__container {
   position: relative;
   width: 100%;
-  height: 100vh;
 }
 
 .stack-card {
-  position: absolute;
+  position: sticky;
   top: 0;
   left: 0;
   width: 100%;
@@ -27,6 +26,12 @@
   overflow: hidden;
   box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.4);
   will-change: transform;
+}
+
+.stack-card .container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .stack-card--light {
@@ -109,7 +114,7 @@
   display: flex;
   flex-direction: column;
   padding: 2rem 4rem;
-  padding-bottom: calc(var(--stack-offset, 80px) * var(--total-cards, 3));
+  padding-bottom: calc(var(--stack-offset, 80px) + 1rem);
   position: relative;
 
   // Dot grid background
@@ -136,11 +141,13 @@
 .stack-card__image-container {
   position: relative;
   width: 100%;
-  aspect-ratio: 21 / 9;
+  flex: 1;
+  min-height: 0;
   z-index: 1;
   background: #ccc;
   overflow: hidden;
   margin-bottom: 2rem;
+  border-radius: 12px;
 }
 
 .stack-card__image {
@@ -148,16 +155,7 @@
   image-rendering: pixelated; // Enhance dithered feel
 }
 
-.stack-card__image-label {
-  position: absolute;
-  bottom: 1.5rem;
-  left: 2rem;
-  font-family: var(--font-inter), var(--font-geist-sans), sans-serif;
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 700;
-  color: #fff;
-  mix-blend-mode: difference;
-}
+
 
 .stack-card__text-container {
   max-width: 400px;
@@ -170,6 +168,42 @@
   line-height: 1.5;
   opacity: 0.8;
   margin: 0;
+}
+
+.stack-card__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: inherit;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-family: var(--font-inter), var(--font-geist-sans), sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  svg {
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    background: currentColor;
+    color: #0a0a0a;
+
+    svg {
+      transform: translateX(4px);
+    }
+  }
+}
+
+.stack-card--light .stack-card__button:hover {
+  color: #fff;
 }
 
 @media (max-width: 768px) {
@@ -188,8 +222,7 @@
   }
 
   .stack-card__title,
-  .stack-card__index,
-  .stack-card__image-label {
+  .stack-card__index {
     font-size: 2rem;
   }
 }

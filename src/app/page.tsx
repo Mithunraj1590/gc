@@ -46,7 +46,7 @@ export default function Home() {
       {/* <HomeService /> */}
 
       <HomeStackCards />
-      <CreativeIntelligenceCTA />
+      {/* <CreativeIntelligenceCTA /> */}
 
       <HomePixelPromo />
 

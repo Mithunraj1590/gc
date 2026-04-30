@@ -51,50 +51,17 @@ export default function HomeStackCards({ className = "" }: HomeStackCardsProps) 
 
   useLayoutEffect(() => {
     const root = sectionRef.current;
-    const container = containerRef.current;
-    if (!root || !container) return;
+    if (!root) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const calculateHH = () => {
+      const currentHH = Math.min(120, Math.max(90, window.innerHeight * 0.1));
+      setHH(currentHH);
+    };
 
-    const currentHH = Math.min(120, Math.max(90, window.innerHeight * 0.1));
-    setHH(currentHH);
+    calculateHH();
+    window.addEventListener('resize', calculateHH);
 
-    const cards = Array.from(container.querySelectorAll<HTMLElement>(".stack-card"));
-
-    const ctx = gsap.context(() => {
-      const mainTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: root,
-          start: "top top",
-          end: `+=${cards.length * 120}%`,
-          pin: true,
-          pinSpacing: true,
-          scrub: 1.5,
-          anticipatePin: 0,
-          pinType: "transform",
-          refreshPriority: 10, // Higher priority for pins
-          invalidateOnRefresh: true,
-        }
-      });
-
-      cards.forEach((card, i) => {
-        if (i === 0) return;
-
-        const startY = window.innerHeight - ((cards.length - i) * (hH * 0.3));
-
-        mainTl.fromTo(card,
-          { y: startY, yPercent: 0 },
-          {
-            y: i * hH,
-            yPercent: 0,
-            duration: 1,
-            ease: "power1.inOut"
-          }
-        );
-      });
-    }, root);
-
-    return () => ctx.revert();
+    return () => window.removeEventListener('resize', calculateHH);
   }, []);
 
   return (
@@ -113,7 +80,7 @@ export default function HomeStackCards({ className = "" }: HomeStackCardsProps) 
           <article
             key={item.indexLabel}
             className={`stack-card stack-card--${item.theme}`}
-            style={{ zIndex: i + 1 }}
+            style={{ zIndex: i + 1, top: i * hH }}
           >
             <div className="container">
 
@@ -137,10 +104,16 @@ export default function HomeStackCards({ className = "" }: HomeStackCardsProps) 
                     className="stack-card__image"
                     priority={i === 0}
                   />
-                  <div className="stack-card__image-label">Dithering</div>
                 </div>
                 <div className="stack-card__text-container">
                   <p className="stack-card__description">{item.description}</p>
+                  <button className="stack-card__button">
+                    Explore
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 12h14"></path>
+                      <path d="m12 5 7 7-7 7"></path>
+                    </svg>
+                  </button>
                 </div>
               </div>
             </div>
