@@ -103,10 +103,10 @@ export default function RootLayout({
           <Header />
           <div className="grid-overlay" aria-hidden />
           <div className="dots-overlay" aria-hidden />
-          <div className="relative z-10 flex min-h-full flex-col">
+          <main className="relative z-20 bg-black shadow-2xl">
             {children}
-            <Footer />
-          </div>
+          </main>
+          <Footer />
           <FloatingNav />
         </LenisScroll>
       </body>

@@ -11,7 +11,7 @@ export default function Footer() {
   return (
     <footer
       ref={footerRef}
-      className="mt-24 border-t border-white/10 bg-black/40 backdrop-blur-[2px]"
+      className="sticky bottom-0 z-10 border-t border-white/10 bg-black"
     >
       <div className="container py-14">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
