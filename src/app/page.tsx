@@ -8,6 +8,7 @@ import HomePixelPromo from "@/widgets/HomePixelPromo";
 import HomeGallery from "@/widgets/HomeGallery";
 import HomeBlog from "@/widgets/HomeBlog";
 import ImpactWidget from "@/widgets/ImpactWidget";
+import StickyTitle from "@/widgets/StickyTitle";
 import CreativeIntelligenceCTA from "@/components/CreativeIntelligenceCTA";
 
 const HomeBanner = dynamic(() => import("@/widgets/HomeBanner"), {
@@ -35,6 +36,8 @@ export default function Home() {
     <>
       <HomeBanner />
 
+      <StickyTitle title="WE CREATE DIGITAL EXPERIENCES" />
+
       {/* <HomeLines /> */}
 
       <ImpactWidget />
@@ -48,9 +51,10 @@ export default function Home() {
       <HomeStackCards />
       {/* <CreativeIntelligenceCTA /> */}
 
-      <HomePixelPromo />
+      {/* <HomePixelPromo /> */}
 
       {/* <HomeGallery /> */}
+
 
       <HomeWork />
       <HomeBlog />

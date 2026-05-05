@@ -15,7 +15,9 @@ export default function CreativeIntelligenceCTA({
   return (
     <section className={`creative-cta ${className}`.trim()}>
       <div className="creative-cta__left">
-        <div className="creative-cta__icon" aria-hidden="true" />
+        <div className="creative-cta__icon-wrap">
+          <img src="/swss.svg" alt="Creative Intelligence" className="creative-cta__icon-svg" />
+        </div>
         <h2 className="creative-cta__text">
           Explore Our <strong>Creative intelligence</strong>
         </h2>
