@@ -103,7 +103,7 @@ export default function RootLayout({
           <Header />
           <div className="grid-overlay" aria-hidden />
           <div className="dots-overlay" aria-hidden />
-          <main className="relative z-20 bg-black shadow-2xl">
+          <main className="relative z-20 bg-black shadow-2xl rounded-b-[30px]">
             {children}
           </main>
           <Footer />

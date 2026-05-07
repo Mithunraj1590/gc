@@ -35,7 +35,7 @@ export default function HomeBuildCreateCommunicate({ className = "" }: HomeBuild
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: svg,
-          start: "top bottom",
+          start: "top 85%",
           toggleActions: "play none none none",
           refreshPriority: 1,
         }
@@ -86,11 +86,11 @@ export default function HomeBuildCreateCommunicate({ className = "" }: HomeBuild
       <div className="home-bcc__grid">
         {/* Build Panel */}
         <div className="home-bcc__panel home-bcc__panel--light" data-reveal>
+          <span className="home-bcc__accent home-bcc__accent--fill" aria-hidden />
           <div className="home-bcc__card-inner">
             <div className="home-bcc__card-front">
               <div className="home-bcc__head">
                 <h2 className="home-bcc__title">Build</h2>
-                <span className="home-bcc__accent home-bcc__accent--fill" aria-hidden />
               </div>
               <div className="home-bcc__canvas-wrap">
                 <svg
@@ -118,11 +118,11 @@ export default function HomeBuildCreateCommunicate({ className = "" }: HomeBuild
 
         {/* Create Panel */}
         <div className="home-bcc__panel home-bcc__panel--dark" data-reveal>
+          <span className="home-bcc__accent home-bcc__accent--ring" aria-hidden />
           <div className="home-bcc__card-inner">
             <div className="home-bcc__card-front">
               <div className="home-bcc__head">
                 <h2 className="home-bcc__title">Create</h2>
-                <span className="home-bcc__accent home-bcc__accent--ring" aria-hidden />
               </div>
               <div className="home-bcc__canvas-wrap">
                 <svg
@@ -149,11 +149,11 @@ export default function HomeBuildCreateCommunicate({ className = "" }: HomeBuild
 
         {/* Communicate Panel */}
         <div className="home-bcc__panel home-bcc__panel--light" data-reveal>
+          <span className="home-bcc__accent home-bcc__accent--fill" aria-hidden />
           <div className="home-bcc__card-inner">
             <div className="home-bcc__card-front">
               <div className="home-bcc__head">
                 <h2 className="home-bcc__title">Communicate</h2>
-                <span className="home-bcc__accent home-bcc__accent--fill" aria-hidden />
               </div>
               <div className="home-bcc__canvas-wrap">
                 <svg

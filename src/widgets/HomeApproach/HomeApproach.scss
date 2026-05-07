@@ -8,12 +8,7 @@
   overflow: hidden;
 }
 
-.home-approach .container-large {
-  width: 100%;
-  max-width: min(100%, 1680px);
-  margin-inline: auto;
-  padding-inline: 15px;
-}
+
 
 .home-approach .fig-title-block {
   display: grid;
@@ -44,7 +39,7 @@
   min-width: 140px;
 }
 
-@media (width >= 768px) {
+@media (width >=768px) {
   .home-approach .fig-tb-cell {
     min-width: 160px;
   }
@@ -88,7 +83,7 @@
   gap: 0.4rem;
 }
 
-@media (width >= 768px) {
+@media (width >=768px) {
   .home-approach .fig-tb-center {
     padding: 1.5rem 2rem;
   }
@@ -111,7 +106,7 @@
   text-transform: uppercase;
 }
 
-@media (width >= 768px) {
+@media (width >=768px) {
   .home-approach .fig-tb-subtitle {
     font-size: 0.65rem;
   }
@@ -217,14 +212,12 @@
   pointer-events: none;
   background:
     linear-gradient(to top, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.35) 42%, rgba(0, 0, 0, 0.06) 100%),
-    linear-gradient(
-      to right,
+    linear-gradient(to right,
       rgba(0, 0, 0, 0.62) 0%,
       rgba(0, 0, 0, 0.1) 32%,
       rgba(0, 0, 0, 0.05) 55%,
       rgba(0, 0, 0, 0.12) 82%,
-      rgba(0, 0, 0, 0.22) 100%
-    );
+      rgba(0, 0, 0, 0.22) 100%);
 }
 
 .home-approach .engine-overlay-texts {
@@ -259,7 +252,8 @@
   visibility: hidden;
 }
 
-@media (width >= 768px) {
+@media (width >=768px) {
+
   .home-approach .ets-left,
   .home-approach .ets-right {
     width: min(35%, 560px);
@@ -274,7 +268,7 @@
   right: 6vw;
 }
 
-@media (width >= 768px) {
+@media (width >=768px) {
   .home-approach .ets-left {
     left: 8vw;
   }
@@ -291,7 +285,7 @@
   margin: 1rem 0;
 }
 
-@media (width >= 768px) {
+@media (width >=768px) {
   .home-approach .ets-line {
     margin: 1.5rem 0;
   }
@@ -335,6 +329,7 @@
 }
 
 @keyframes home-approach-pulse-dot {
+
   0%,
   100% {
     opacity: 1;
