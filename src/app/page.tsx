@@ -41,19 +41,19 @@ export default function Home() {
 
       {/* <HomeLines /> */}
 
-      <ImpactWidget />
+      {/* <ImpactWidget /> */}
 
-      <StickyTitle title="WE CREATE DIGITAL EXPERIENCES" />
+      {/* <StickyTitle title="WE CREATE DIGITAL EXPERIENCES" /> */}
 
       {/* <HomeCreate /> */}
 
-      <HomeBuildCreateCommunicate />
+      {/* <HomeBuildCreateCommunicate /> */}
 
-      <Approach />
+      {/* <Approach /> */}
 
       {/* <HomeService /> */}
 
-      <HomeStackCards />
+      {/* <HomeStackCards /> */}
       {/* <CreativeIntelligenceCTA /> */}
 
       {/* <HomePixelPromo /> */}
@@ -61,8 +61,8 @@ export default function Home() {
       {/* <HomeGallery /> */}
 
 
-      <HomeWork />
-      <HomeBlog />
+      {/* <HomeWork /> */}
+      {/* <HomeBlog /> */}
     </>
   );
 }
