@@ -322,11 +322,11 @@ export default function HomeBanner({ imageSrc = "/welcome.webp" }: HomeBannerPro
             Full-spectrum brand transformation — powered by human expertise, AI intelligence, and
             precision execution.
           </p>
-          <div className="mt-10 flex items-center gap-4" data-gsap="banner-ctas">
-            <Button variant="primary" size="md">
+          <div className="mt-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto" data-gsap="banner-ctas">
+            <Button variant="primary" size="md" className="w-full sm:w-auto justify-center text-center">
               Start Mission
             </Button>
-            <Button variant="secondary" size="md">
+            <Button variant="secondary" size="md" className="w-full sm:w-auto justify-center text-center">
               Request Brand Scan
             </Button>
           </div>

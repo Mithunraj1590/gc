@@ -43,6 +43,30 @@ export default function FloatingNav({ onAiToggle }: FloatingNavProps) {
   const messagesScrollRef = useRef<HTMLDivElement | null>(null);
   const bottomNavPillRef = useRef<HTMLDivElement | null>(null);
 
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const handleScroll = () => {
+        const currentScrollY = window.scrollY;
+        
+        if (currentScrollY < 10) {
+          setIsVisible(true);
+        } else if (currentScrollY > lastScrollY && !aiOpen && !reportOpen) {
+          setIsVisible(false);
+        } else {
+          setIsVisible(true);
+        }
+        
+        setLastScrollY(currentScrollY);
+      };
+
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      return () => window.removeEventListener("scroll", handleScroll);
+    }
+  }, [lastScrollY, aiOpen, reportOpen]);
+
   useLayoutEffect(() => {
     const el = bottomNavPillRef.current;
     if (!el) return;
@@ -103,6 +127,12 @@ export default function FloatingNav({ onAiToggle }: FloatingNavProps) {
     return () => window.removeEventListener("keydown", onKey);
   }, [aiOpen, setChatOpen]);
 
+  useEffect(() => {
+    const handleOpenChat = () => setChatOpen(true);
+    window.addEventListener("open-ci-chat", handleOpenChat);
+    return () => window.removeEventListener("open-ci-chat", handleOpenChat);
+  }, [setChatOpen]);
+
   const quickGuidance = useMemo(
     () => [
       "Clarify target audience in one line",
@@ -145,67 +175,17 @@ export default function FloatingNav({ onAiToggle }: FloatingNavProps) {
 
   return (
     <>
-      <nav
-        className="pointer-events-none fixed inset-x-0 bottom-10 z-4000 flex justify-center"
-        aria-label="Bottom navigation"
+      {/* Floating Trigger */}
+      <button
+        onClick={() => setChatOpen(true)}
+        className={`fixed bottom-6 right-6 md:bottom-8 md:right-8 z-[4500] flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-full bg-black/60 border border-white/10 backdrop-blur-xl shadow-2xl transition-all duration-500 hover:bg-black/80 hover:scale-105 cursor-pointer group ${aiOpen ? 'opacity-0 pointer-events-none translate-y-4 scale-95' : 'opacity-100 pointer-events-auto translate-y-0 scale-100'}`}
+        aria-label="Open Creative Intelligence"
       >
-        <div
-          ref={bottomNavPillRef}
-          className="pointer-events-auto flex items-center gap-1 rounded-[4px] border border-white/8 bg-[rgba(10,10,10,0.88)] px-4 py-[0.55rem] pr-[0.6rem] shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl [backdrop-filter:saturate(180%)]"
-        >
-          {NAV_ITEMS.map((item, index) => {
-            const isActive = activeItem === item.id;
-
-            return (
-              <a
-                key={item.id}
-                href={item.href}
-                title={item.label}
-                onClick={() => setActiveItem(item.id)}
-                className={`font-home-banner-heading flex items-center gap-1 rounded-[2px] px-3 py-[0.35rem] text-[0.63rem] font-medium uppercase tracking-widest transition-all duration-200 ${
-                  isActive ? "bg-white/10 text-white opacity-100" : "text-white/40 opacity-100 hover:text-white"
-                }`}
-              >
-                {index === 0 ? (
-                  <svg className="h-[15px] w-[15px] shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden>
-                    <path
-                      d="M3 9.5L10 3l7 6.5V17a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"
-                      stroke="currentColor"
-                      strokeWidth="1.2"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M8 18v-5h4v5"
-                      stroke="currentColor"
-                      strokeWidth="1.2"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                ) : null}
-                {index === 0 ? null : item.label}
-              </a>
-            );
-          })}
-
-          <div className="mx-1 h-[18px] w-px shrink-0 bg-white/10" aria-hidden />
-
-          <button
-            id="ci-trigger"
-            type="button"
-            title="Creative Intelligence"
-            onClick={toggleChat}
-            className={`flex h-[34px] w-[34px] items-center justify-center p-0 transition-all duration-300 ease-[cubic-bezier(0.34_1.56_0.64_1)] ${
-              aiOpen ? "scale-110 opacity-100" : "opacity-50 hover:scale-110 hover:opacity-100"
-            }`}
-            aria-pressed={aiOpen}
-          >
-            <svg className="h-[26px] w-[26px] animate-[spin_12s_linear_infinite]" viewBox="0 0 32 32" fill="none" aria-hidden>
-              <circle cx="16" cy="16" r="13" stroke="currentColor" strokeWidth="1" strokeDasharray="3 2.5" />
-              <circle cx="16" cy="16" r="4" fill="currentColor" opacity="0.9" />
-            </svg>
-          </button>
-        </div>
-      </nav>
+        <svg className="h-6 w-6 md:h-7 md:w-7 animate-[spin_12s_linear_infinite] text-white" viewBox="0 0 32 32" fill="none" aria-hidden>
+          <circle cx="16" cy="16" r="13" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 2.5" />
+          <circle cx="16" cy="16" r="4" fill="currentColor" opacity="0.9" />
+        </svg>
+      </button>
 
       <div
         id="ci-chat"

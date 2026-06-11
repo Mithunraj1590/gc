@@ -25,12 +25,46 @@ const formatLocationTime = (zone: string, offset: number) => {
   return `${zone} ${hh}:${mm}`;
 };
 
+const NAV_ITEMS = [
+  { id: "home", href: "#home", label: "Home" },
+  { id: "projects", href: "#projects", label: "Projects" },
+  { id: "services", href: "#services", label: "Services" },
+  { id: "approach", href: "#approach", label: "Approach" },
+  { id: "about", href: "#about", label: "Contact" },
+];
+
 export default function Header() {
   const [mounted, setMounted] = useState(false);
   const [currentLocationIndex, setCurrentLocationIndex] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(80);
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMenuOpen]);
+
   const headerRef = useRef<HTMLElement>(null);
   const locTextRef = useRef<HTMLSpanElement>(null);
   const locTimeRef = useRef<HTMLSpanElement>(null);
+
+  useLayoutEffect(() => {
+    if (!headerRef.current) return;
+    const updateHeight = () => {
+      if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight);
+      }
+    };
+    updateHeight();
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
+  }, []);
 
   const current = locations[currentLocationIndex];
   const currentTime = mounted ? formatLocationTime(current.zone, current.offset) : current.zone;
@@ -94,7 +128,8 @@ export default function Header() {
       className="pointer-events-none fixed top-0 z-2000 flex w-full items-center justify-between px-6 py-4 md:px-10"
     >
       <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/75 via-black/35 to-transparent" />
-      <div className="pointer-events-auto" data-header-reveal>
+      <div className={`pointer-events-none absolute inset-0 bg-[#0a0a0a] transition-opacity duration-500 ${isMenuOpen ? "opacity-100" : "opacity-0"}`} />
+      <div className="pointer-events-auto relative z-10" data-header-reveal>
         <Link
           href="/"
           className="inline-flex items-center text-white outline-offset-4 transition-opacity"
@@ -124,13 +159,84 @@ export default function Header() {
         </Link>
       </div>
 
-      <div className="pointer-events-auto text-right text-[0.58rem] tracking-[0.12em]" data-header-reveal>
-        <span ref={locTextRef} className="block font-normal text-white/35">
-          {current.city}
-        </span>
-        <span ref={locTimeRef} className="text-[0.6rem] font-semibold text-white/70">
-          {currentTime}
-        </span>
+      <div className="pointer-events-auto flex items-center gap-4 md:gap-6 relative z-10" data-header-reveal>
+        <div className="text-right text-[0.58rem] tracking-[0.12em] hidden sm:block">
+          <span ref={locTextRef} className="block font-normal text-white/35">
+            {current.city}
+          </span>
+          <span ref={locTimeRef} className="text-[0.6rem] font-semibold text-white/70">
+            {currentTime}
+          </span>
+        </div>
+        <button
+          onClick={() => setIsMenuOpen(prev => !prev)}
+          className="flex flex-col justify-center items-center w-12 h-12 md:w-14 md:h-14 hover:opacity-70 transition-opacity relative cursor-pointer"
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        >
+          <div className={`absolute w-6 md:w-8 h-[2px] bg-white transition-all duration-300 ${isMenuOpen ? 'rotate-45' : '-translate-y-1.5 md:-translate-y-2'}`}></div>
+          <div className={`absolute w-6 md:w-8 h-[2px] bg-white transition-all duration-300 ${isMenuOpen ? '-rotate-45' : 'translate-y-1.5 md:translate-y-2'}`}></div>
+        </button>
+      </div>
+
+      {/* Menu Overlay & Drawer */}
+      <div
+        className={`pointer-events-auto fixed inset-x-0 bottom-0 z-[1500] transition-opacity duration-500 ${
+          isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
+        style={{
+          top: `${headerHeight}px`,
+          height: `calc(100vh - ${headerHeight}px)`,
+        }}
+      >
+        <div
+          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+          onClick={() => setIsMenuOpen(false)}
+        />
+        <div
+          className={`absolute top-0 right-0 h-full w-full bg-[#0a0a0a] shadow-2xl flex flex-col md:flex-row transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] overflow-hidden ${
+            isMenuOpen ? "translate-x-0 md:translate-y-0" : "translate-x-full md:translate-x-0 md:-translate-y-full"
+          }`}
+        >
+          {/* Left Side: Navigation Links & Info */}
+          <div className="flex-1 flex flex-col px-8 md:px-20 py-8 overflow-y-auto relative z-10 bg-[#0a0a0a] md:bg-transparent">
+            <nav className="flex flex-col gap-6 md:gap-8 pt-4">
+              {NAV_ITEMS.map((item, i) => (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="group text-3xl sm:text-4xl md:text-[3.5rem] md:leading-none font-semibold tracking-tight text-white/50 hover:text-white transition-colors flex items-center gap-4 md:gap-6"
+                  style={{ transitionDelay: `${i * 50}ms` }}
+                >
+                  <span className="hidden md:block text-sm font-normal tracking-widest text-white/20 group-hover:text-[#FF5033] transition-colors -translate-y-2">0{i + 1}</span>
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+
+
+          </div>
+
+          {/* Right Side: Animated Decorative Graphics (Desktop Only) */}
+          <div className="hidden md:flex flex-1 relative items-center justify-center bg-[#0a0a0a] border-l border-white/5 overflow-hidden">
+            <div className="absolute w-[400px] h-[400px] bg-[#FF5033]/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen" />
+            <div className="relative w-[600px] h-[600px] flex items-center justify-center opacity-20 text-white pointer-events-none mix-blend-screen scale-110">
+              <svg className="absolute inset-0 w-full h-full animate-[spin_60s_linear_infinite]" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="0.25">
+                <circle cx="100" cy="100" r="98" strokeDasharray="2 4" />
+                <circle cx="100" cy="100" r="80" />
+                <circle cx="100" cy="100" r="60" strokeDasharray="1 3" />
+                <path d="M100 2 L185 149 L15 149 Z" className="animate-[spin_40s_linear_infinite]" style={{ transformOrigin: '100px 100px' }} />
+                <path d="M100 198 L15 51 L185 51 Z" className="animate-[spin_55s_linear_infinite_reverse]" style={{ transformOrigin: '100px 100px' }} />
+              </svg>
+              <svg className="absolute w-[50%] h-[50%] animate-[spin_20s_linear_infinite_reverse]" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
+                <ellipse cx="50" cy="50" rx="45" ry="12" transform="rotate(30 50 50)" />
+                <ellipse cx="50" cy="50" rx="45" ry="12" transform="rotate(90 50 50)" />
+                <ellipse cx="50" cy="50" rx="45" ry="12" transform="rotate(150 50 50)" />
+                <circle cx="50" cy="50" r="8" fill="currentColor" opacity="0.6" />
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
     </header>
   );

@@ -14,7 +14,7 @@ export default function Footer() {
       className="sticky bottom-0 z-10 border-t border-black/10 bg-white"
     >
       <div className="container py-14 text-black">
-        <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr] lg:grid-cols-[1.4fr_1fr_1fr_1fr] xl:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div data-reveal>
             <p className="mb-4 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-black/55">
               GC Mission Control
