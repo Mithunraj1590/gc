@@ -25,12 +25,100 @@ const formatLocationTime = (zone: string, offset: number) => {
   return `${zone} ${hh}:${mm}`;
 };
 
-const NAV_ITEMS = [
-  { id: "home", href: "#home", label: "Home" },
-  { id: "projects", href: "#projects", label: "Projects" },
-  { id: "services", href: "#services", label: "Services" },
-  { id: "approach", href: "#approach", label: "Approach" },
-  { id: "about", href: "#about", label: "Contact" },
+type NavItemType = "stats" | "quote" | "clients" | "split-buttons" | "article" | "contact";
+
+type NavItem = {
+  id: string;
+  href: string;
+  label: string;
+  type: NavItemType;
+  title: string;
+  description?: string;
+  stats?: { value: string; label: string }[];
+  quote?: { text: string; author: string; role: string };
+  clients?: string[];
+  article?: { title: string; category: string; date: string };
+  contact?: { email: string; phone: string; address: string };
+  buttonText?: string;
+  secondaryButtonText?: string;
+};
+
+const NAV_ITEMS: NavItem[] = [
+  { 
+    id: "impact", 
+    href: "#impact", 
+    label: "Impact",
+    type: "stats",
+    title: "Our Impact",
+    description: "Every innovation that happens here is out of a quest to get better at what we are already doing. We deliver ideas that make a difference, create experiences that transform lives and build ecosystems that foster progress.",
+    stats: [
+      { value: "700+", label: "Projects launched successfully across the globe" },
+      { value: "10M", label: "Daily customer engagement through our projects" },
+      { value: "100+", label: "Digital transformation stories that made a difference" }
+    ],
+    buttonText: "Our Impact"
+  },
+  { 
+    id: "testimonials", 
+    href: "#testimonials", 
+    label: "Testimonials",
+    type: "quote",
+    title: "Client Stories",
+    quote: {
+      text: "\"Their strategic approach and creative intelligence transformed our brand presence completely. The results exceeded all our expectations.\"",
+      author: "Sarah Jenkins",
+      role: "CMO, Global Tech"
+    },
+    buttonText: "Read Testimonials"
+  },
+  { 
+    id: "clients", 
+    href: "#clients", 
+    label: "Clients",
+    type: "clients",
+    title: "Who We Work With",
+    description: "We partner with visionary leaders and forward-thinking organizations across industries. From ambitious startups to established global enterprises.",
+    clients: ["TechCorp", "InnovateSpace", "FutureDynamics", "GlobalReach"],
+    buttonText: "View All Clients"
+  },
+  { 
+    id: "partnership", 
+    href: "#partnership", 
+    label: "Partnership",
+    type: "split-buttons",
+    title: "Better Together",
+    description: "We believe in the power of synergy. Our strategic partnerships enable us to deliver comprehensive, cutting-edge solutions that drive mutual success. Join our network of industry leaders.",
+    buttonText: "Partner With Us",
+    secondaryButtonText: "Find a Partner"
+  },
+  { 
+    id: "insights", 
+    href: "#insights", 
+    label: "Insights",
+    type: "article",
+    title: "Knowledge Hub",
+    description: "Dive into our latest thinking, research, and perspectives on the trends shaping the future of technology, business, and human experience.",
+    article: {
+      title: "The Future of AI in Enterprise Digital Transformation",
+      category: "Technology",
+      date: "October 12, 2026"
+    },
+    buttonText: "Explore Insights"
+  },
+  { 
+    id: "contact", 
+    href: "#contact", 
+    label: "Contact",
+    type: "contact",
+    title: "Let's Talk",
+    description: "Ready to start your next big project? Have a question about our services? Our team is here to help you navigate your digital transformation journey.",
+    contact: {
+      email: "hello@creativeintelligence.com",
+      phone: "+1 (555) 123-4567",
+      address: "120 Innovation Drive, Tech District, NY 10001"
+    },
+    buttonText: "Get In Touch"
+  },
 ];
 
 export default function Header() {
@@ -38,6 +126,7 @@ export default function Header() {
   const [currentLocationIndex, setCurrentLocationIndex] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(80);
+  const [hoveredItemId, setHoveredItemId] = useState(NAV_ITEMS[0].id);
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -122,6 +211,8 @@ export default function Header() {
     return () => ctx.revert();
   }, []);
 
+  const activeContent = NAV_ITEMS.find(item => item.id === hoveredItemId) || NAV_ITEMS[0];
+
   return (
     <header
       ref={headerRef}
@@ -129,7 +220,7 @@ export default function Header() {
     >
       <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/75 via-black/35 to-transparent" />
       <div className={`pointer-events-none absolute inset-0 bg-[#0a0a0a] transition-opacity duration-500 ${isMenuOpen ? "opacity-100" : "opacity-0"}`} />
-      <div className="pointer-events-auto relative z-10" data-header-reveal>
+      <div className={`pointer-events-auto relative z-10 transition-opacity duration-500 ${isMenuOpen ? "opacity-0 pointer-events-none" : "opacity-100"}`} data-header-reveal>
         <Link
           href="/"
           className="inline-flex items-center text-white outline-offset-4 transition-opacity"
@@ -160,7 +251,7 @@ export default function Header() {
       </div>
 
       <div className="pointer-events-auto flex items-center gap-4 md:gap-6 relative z-10" data-header-reveal>
-        <div className="text-right text-[0.58rem] tracking-[0.12em] hidden sm:block">
+        <div className={`text-right text-[0.58rem] tracking-[0.12em] hidden sm:block transition-opacity duration-500 ${isMenuOpen ? "opacity-0 pointer-events-none" : "opacity-100"}`}>
           <span ref={locTextRef} className="block font-normal text-white/35">
             {current.city}
           </span>
@@ -169,72 +260,168 @@ export default function Header() {
           </span>
         </div>
         <button
-          onClick={() => setIsMenuOpen(prev => !prev)}
-          className="flex flex-col justify-center items-center w-12 h-12 md:w-14 md:h-14 hover:opacity-70 transition-opacity relative cursor-pointer"
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          onClick={() => setIsMenuOpen(true)}
+          className={`flex flex-col justify-center items-center w-12 h-12 md:w-14 md:h-14 hover:opacity-70 transition-opacity duration-500 relative cursor-pointer ${isMenuOpen ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+          aria-label="Open menu"
         >
-          <div className={`absolute w-6 md:w-8 h-[2px] bg-white transition-all duration-300 ${isMenuOpen ? 'rotate-45' : '-translate-y-1.5 md:-translate-y-2'}`}></div>
-          <div className={`absolute w-6 md:w-8 h-[2px] bg-white transition-all duration-300 ${isMenuOpen ? '-rotate-45' : 'translate-y-1.5 md:translate-y-2'}`}></div>
+          <div className="absolute w-6 md:w-8 bg-white h-[2px] -translate-y-1.5 md:-translate-y-2"></div>
+          <div className="absolute w-6 md:w-8 bg-white h-[2px] translate-y-1.5 md:translate-y-2"></div>
         </button>
       </div>
 
       {/* Menu Overlay & Drawer */}
       <div
-        className={`pointer-events-auto fixed inset-x-0 bottom-0 z-[1500] transition-opacity duration-500 ${
+        className={`pointer-events-auto fixed inset-0 z-[1500] transition-opacity duration-500 ${
           isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
-        style={{
-          top: `${headerHeight}px`,
-          height: `calc(100vh - ${headerHeight}px)`,
-        }}
       >
         <div
           className="absolute inset-0 bg-black/60 backdrop-blur-sm"
           onClick={() => setIsMenuOpen(false)}
         />
         <div
-          className={`absolute top-0 right-0 h-full w-full bg-[#0a0a0a] shadow-2xl flex flex-col md:flex-row transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] overflow-hidden ${
+          className={`absolute top-0 right-0 h-full w-full bg-[#030303] shadow-2xl flex flex-col md:flex-row transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] overflow-hidden ${
             isMenuOpen ? "translate-x-0 md:translate-y-0" : "translate-x-full md:translate-x-0 md:-translate-y-full"
           }`}
         >
-          {/* Left Side: Navigation Links & Info */}
-          <div className="flex-1 flex flex-col px-8 md:px-20 py-8 overflow-y-auto relative z-10 bg-[#0a0a0a] md:bg-transparent">
-            <nav className="flex flex-col gap-6 md:gap-8 pt-4">
+          {/* Close Menu Button */}
+          <button
+            onClick={() => setIsMenuOpen(false)}
+            className="absolute top-6 right-6 md:top-10 md:right-10 z-50 p-2 text-white/50 hover:text-white transition-colors cursor-pointer group"
+            aria-label="Close menu"
+          >
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" className="group-hover:rotate-90 transition-transform duration-500">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+          {/* Left Side: Impact Content */}
+          <div className="flex-1 flex flex-col justify-center px-8 md:px-20 lg:px-32 py-12 relative z-10 bg-[#030303]">
+            {/* Background ambient glow for left side */}
+            <div className="absolute top-1/4 left-0 w-[400px] h-[400px] bg-[#002244]/40 blur-[120px] rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2" />
+            
+            <h2 className="text-5xl md:text-6xl text-white font-light mb-8 tracking-tight">{activeContent.title}</h2>
+            {activeContent.type === 'stats' && (
+              <>
+                <p className="text-white/80 text-base md:text-lg max-w-xl leading-relaxed mb-16 font-light">
+                  {activeContent.description}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-16 max-w-2xl">
+                  {activeContent.stats?.map((stat, i) => (
+                    <div key={i}>
+                      <h3 className="text-4xl md:text-[2.75rem] text-white font-light mb-4">{stat.value}</h3>
+                      <p className="text-xs md:text-sm text-white/90 leading-tight font-medium max-w-[140px]">{stat.label}</p>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {activeContent.type === 'quote' && (
+              <div className="mb-16 max-w-2xl">
+                <p className="text-3xl md:text-4xl text-white font-light leading-snug mb-8">
+                  {activeContent.quote?.text}
+                </p>
+                <div>
+                  <p className="text-white text-lg font-medium">{activeContent.quote?.author}</p>
+                  <p className="text-white/60 text-sm">{activeContent.quote?.role}</p>
+                </div>
+              </div>
+            )}
+
+            {activeContent.type === 'clients' && (
+              <>
+                <p className="text-white/80 text-base md:text-lg max-w-xl leading-relaxed mb-12 font-light">
+                  {activeContent.description}
+                </p>
+                <div className="grid grid-cols-2 gap-4 mb-16 max-w-xl">
+                  {activeContent.clients?.map((client, i) => (
+                    <div key={i} className="border border-white/10 flex items-center justify-center py-8 text-white/50 text-xl font-light hover:text-white hover:border-white/30 transition-colors">
+                      {client}
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {activeContent.type === 'split-buttons' && (
+              <>
+                <p className="text-white/80 text-base md:text-lg max-w-xl leading-relaxed mb-16 font-light">
+                  {activeContent.description}
+                </p>
+              </>
+            )}
+
+            {activeContent.type === 'article' && (
+              <>
+                <p className="text-white/80 text-base md:text-lg max-w-xl leading-relaxed mb-12 font-light">
+                  {activeContent.description}
+                </p>
+                <div className="border border-white/10 p-6 max-w-md mb-16 group hover:border-white/30 transition-colors cursor-pointer">
+                  <span className="text-[#0088ff] text-xs font-semibold tracking-wider uppercase mb-3 block">{activeContent.article?.category}</span>
+                  <h3 className="text-2xl text-white font-light mb-4 group-hover:text-[#0088ff] transition-colors">{activeContent.article?.title}</h3>
+                  <p className="text-white/50 text-sm">{activeContent.article?.date}</p>
+                </div>
+              </>
+            )}
+
+            {activeContent.type === 'contact' && (
+              <>
+                <p className="text-white/80 text-base md:text-lg max-w-xl leading-relaxed mb-12 font-light">
+                  {activeContent.description}
+                </p>
+                <div className="flex flex-col gap-6 mb-16 max-w-xl">
+                  <div>
+                    <h4 className="text-white/50 text-sm mb-1">Email</h4>
+                    <a href={`mailto:${activeContent.contact?.email}`} className="text-white text-xl font-light hover:text-[#0088ff] transition-colors">{activeContent.contact?.email}</a>
+                  </div>
+                  <div>
+                    <h4 className="text-white/50 text-sm mb-1">Phone</h4>
+                    <p className="text-white text-xl font-light">{activeContent.contact?.phone}</p>
+                  </div>
+                  <div>
+                    <h4 className="text-white/50 text-sm mb-1">Address</h4>
+                    <p className="text-white text-xl font-light max-w-xs">{activeContent.contact?.address}</p>
+                  </div>
+                </div>
+              </>
+            )}
+
+            <div className="flex items-center gap-4">
+              {activeContent.buttonText && (
+                <button className="group border border-white/40 text-white text-xs md:text-sm px-6 py-3 w-fit hover:bg-white hover:text-black transition-colors duration-300 flex items-center gap-3">
+                  <span className="font-medium tracking-wide">{activeContent.buttonText}</span>
+                  <span className="text-lg leading-none font-light group-hover:translate-x-1 transition-transform duration-300">&rsaquo;</span>
+                </button>
+              )}
+              {activeContent.secondaryButtonText && (
+                <button className="group border border-white/10 bg-white/5 text-white text-xs md:text-sm px-6 py-3 w-fit hover:bg-white hover:text-black transition-colors duration-300 flex items-center gap-3">
+                  <span className="font-medium tracking-wide">{activeContent.secondaryButtonText}</span>
+                  <span className="text-lg leading-none font-light group-hover:translate-x-1 transition-transform duration-300">&rsaquo;</span>
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Right Side: Navigation Links */}
+          <div className="flex-1 flex flex-col justify-center px-8 md:px-20 lg:px-32 py-12 relative z-10 bg-[#030303] overflow-hidden">
+            {/* The blue glowing gradient */}
+            <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[#0088ff]/30 blur-[150px] rounded-full pointer-events-none translate-x-1/4 translate-y-1/4" />
+            
+            <nav className="flex flex-col gap-6 md:gap-8 relative z-10">
               {NAV_ITEMS.map((item, i) => (
                 <a
                   key={item.id}
                   href={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className="group text-3xl sm:text-4xl md:text-[3.5rem] md:leading-none font-semibold tracking-tight text-white/50 hover:text-white transition-colors flex items-center gap-4 md:gap-6"
+                  onMouseEnter={() => setHoveredItemId(item.id)}
+                  className={`text-4xl sm:text-5xl md:text-6xl font-light tracking-wide transition-colors duration-300 ${item.id === hoveredItemId ? 'text-white' : 'text-white/40 hover:text-white'}`}
                   style={{ transitionDelay: `${i * 50}ms` }}
                 >
-                  <span className="hidden md:block text-sm font-normal tracking-widest text-white/20 group-hover:text-[#FF5033] transition-colors -translate-y-2">0{i + 1}</span>
                   {item.label}
                 </a>
               ))}
             </nav>
-
-
-          </div>
-
-          {/* Right Side: Animated Decorative Graphics (Desktop Only) */}
-          <div className="hidden md:flex flex-1 relative items-center justify-center bg-[#0a0a0a] border-l border-white/5 overflow-hidden">
-            <div className="absolute w-[400px] h-[400px] bg-[#FF5033]/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen" />
-            <div className="relative w-[600px] h-[600px] flex items-center justify-center opacity-20 text-white pointer-events-none mix-blend-screen scale-110">
-              <svg className="absolute inset-0 w-full h-full animate-[spin_60s_linear_infinite]" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="0.25">
-                <circle cx="100" cy="100" r="98" strokeDasharray="2 4" />
-                <circle cx="100" cy="100" r="80" />
-                <circle cx="100" cy="100" r="60" strokeDasharray="1 3" />
-                <path d="M100 2 L185 149 L15 149 Z" className="animate-[spin_40s_linear_infinite]" style={{ transformOrigin: '100px 100px' }} />
-                <path d="M100 198 L15 51 L185 51 Z" className="animate-[spin_55s_linear_infinite_reverse]" style={{ transformOrigin: '100px 100px' }} />
-              </svg>
-              <svg className="absolute w-[50%] h-[50%] animate-[spin_20s_linear_infinite_reverse]" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
-                <ellipse cx="50" cy="50" rx="45" ry="12" transform="rotate(30 50 50)" />
-                <ellipse cx="50" cy="50" rx="45" ry="12" transform="rotate(90 50 50)" />
-                <ellipse cx="50" cy="50" rx="45" ry="12" transform="rotate(150 50 50)" />
-                <circle cx="50" cy="50" r="8" fill="currentColor" opacity="0.6" />
-              </svg>
-            </div>
           </div>
         </div>
       </div>
